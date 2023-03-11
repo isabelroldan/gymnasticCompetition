@@ -1,7 +1,9 @@
 package iesFranciscodelosRios.interfaces;
 
 public interface iParticipation {
-    String getDorsal();
+    Integer getDorsal();
 
     int getPoints();
+
+    void setPoints(int points);
 }
