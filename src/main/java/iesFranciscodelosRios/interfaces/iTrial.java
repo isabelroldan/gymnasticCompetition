@@ -6,8 +6,8 @@ import iesFranciscodelosRios.Enum.Type;
 import iesFranciscodelosRios.model.Participation;
 
 public interface iTrial {
-    Type getType();
-    Kit getKit();
-    Category getCategory();
-    Participation getWinner();
+    ArrayList<Participation> getWinner();
+    boolean addParticipant(Participation b);
+    boolean score();
+    ArrayList<Participation> showAllParticipants();
 }
