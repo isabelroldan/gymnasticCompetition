@@ -1,13 +1,11 @@
 package iesFranciscodelosRios.interfaces;
-
-import iesFranciscodelosRios.Enum.Category;
-import iesFranciscodelosRios.Enum.Kit;
-import iesFranciscodelosRios.Enum.Type;
 import iesFranciscodelosRios.model.Participation;
+
+import java.util.ArrayList;
 
 public interface iTrial {
     ArrayList<Participation> getWinner();
     boolean addParticipant(Participation b);
-    boolean score();
-    ArrayList<Participation> showAllParticipants();
+    boolean score(Integer dorsal,int points);
+    Participation searchParticipant(Integer dorsal);
 }
