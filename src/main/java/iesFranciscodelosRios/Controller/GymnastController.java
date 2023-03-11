@@ -46,7 +46,8 @@ public class GymnastController implements iController {
 
     @Override
     public void add() {
-        Gymnast gym=new Gymnast(Read.readDNI("Insert Gymnast's DNI: "),
+        Gymnast gym=new Gymnast(
+                Read.readDNI("Insert Gymnast's DNI: "),
                 Read.readString("Insert Gymnast's name: "),
                 Read.readInt("Insert Gymnast's phone: "),
                 Read.readString("Insert Gymnast's mail: "),
@@ -57,12 +58,24 @@ public class GymnastController implements iController {
 
     @Override
     public void show() {
-
+        String DNI=Read.readDNI("Insert Gymnast's DNI to search: ");
+        Gymnast gym=repoGym.showGymnast(DNI);
+        if (gym!= null) {
+            System.out.println("Gymnast Founded: " + gym.toString());
+        } else {
+            System.out.println("404 Gymnast Not Found");
+        }
     }
 
     @Override
     public void delete() {
-
+        String DNI = Read.readDNI("Insert Gymnast's DNI to Delete: ");
+        boolean deleted = repoGym.deleteGymnast(DNI);
+        if (deleted) {
+            System.out.println("Gymnast Deleted Successfully");
+        } else {
+            System.out.println("404 Gymnast Not Found");
+        }
     }
 
     @Override

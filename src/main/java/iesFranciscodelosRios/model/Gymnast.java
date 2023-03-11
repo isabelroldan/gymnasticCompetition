@@ -1,3 +1,4 @@
+
 package iesFranciscodelosRios.model;
 
 import iesFranciscodelosRios.Enum.Category;
@@ -9,7 +10,7 @@ public class Gymnast extends Person{
     public Gymnast(String DNI, String name, int phone, String mail, Category cat, String club) {
         super(DNI, name, phone, mail);
         this.cat = cat;
-        Club = club;
+        this.Club = club;
     }
 
     public Category getCat() {
@@ -30,9 +31,11 @@ public class Gymnast extends Person{
 
     @Override
     public String toString() {
-        return "Gymnast{" +
+        return super.toString() +
+                "Gymnast{" +
                 "cat=" + cat +
                 ", Club='" + Club + '\'' +
                 '}';
     }
+
 }

@@ -24,19 +24,27 @@ public class RepoGymnast implements iRepoGymnast {
     public boolean modifyGymnast(String DNI) {
         boolean result=false;
 
+
         return result;
     }
 
     @Override
     public boolean deleteGymnast(String DNI) {
-        boolean result=false;
-
-        return result;
+        Gymnast gym = showGymnast(DNI);
+        if (gym != null) {
+            return gymnastes.remove(gym);
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Gymnast showGymnast(String DNI) {
-
+        for (Gymnast gymnast : gymnastes){
+            if(gymnast.getDNI().equals(DNI)){
+                return gymnast;
+            }
+        }
         return null;
     }
 
