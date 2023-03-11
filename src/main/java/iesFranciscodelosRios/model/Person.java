@@ -3,11 +3,11 @@ package iesFranciscodelosRios.model;
 public class Person{
     protected String DNI;
     protected String Name;
-    protected int Phone;
+    protected int Phone=0;
     protected String Mail;
 
     public Person(){
-        this(" "," ",0," ");
+        
     }
     public Person(String DNI, String name, int phone, String mail) {
         this.DNI = DNI;
