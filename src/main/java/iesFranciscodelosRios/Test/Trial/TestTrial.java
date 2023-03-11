@@ -3,6 +3,7 @@ package iesFranciscodelosRios.Test.Trial;
 import iesFranciscodelosRios.Enum.Category;
 import iesFranciscodelosRios.Enum.Kit;
 import iesFranciscodelosRios.Enum.Type;
+import iesFranciscodelosRios.Utils.Read;
 import iesFranciscodelosRios.model.Participation;
 import iesFranciscodelosRios.model.Trial;
 
@@ -20,6 +21,7 @@ public class TestTrial {
         logger.setLevel(Level.ALL);
         testAddParticipant();
         testGetWinner();
+        testScore();
     }
     public static void testAddParticipant(){
         try{
@@ -41,7 +43,6 @@ public class TestTrial {
     public static void testGetWinner(){
         try{
             HashMap<Integer,Participation> aux=t.getParticipations();
-
             for (Map.Entry<Integer,Participation> e:aux.entrySet()){
                 e.getValue().setPoints((int)(Math.random()*10));
                 aux.put(e.getKey(),e.getValue());
@@ -53,6 +54,15 @@ public class TestTrial {
         }catch (Exception e){
             e.printStackTrace();
             logger.log(Level.SEVERE,"ERROR");
+        }
+    }
+    public static void testScore(){
+        int dorsal=Read.readInt("Introduce el dorsal del usuario");
+        if(t.score(dorsal,Read.readInt("introduce puntuacion"))){
+            System.out.println(t.searchParticipant(dorsal));
+            logger.info("OK se establecio puntuacion correctamente");
+        }else{
+            logger.warning("No se pudo establecer puntuacion");
         }
     }
 }
