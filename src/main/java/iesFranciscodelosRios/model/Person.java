@@ -1,10 +1,10 @@
 package iesFranciscodelosRios.model;
 
-public class Person {
-    private String DNI;
-    private String Name;
-    private int Phone;
-    private String Mail;
+public class Person{
+    protected String DNI;
+    protected String Name;
+    protected int Phone;
+    protected String Mail;
 
     public Person(){
         this(" "," ",0," ");
@@ -74,4 +74,6 @@ public class Person {
                 ", Mail='" + Mail + '\'' +
                 '}';
     }
+
+
 }
