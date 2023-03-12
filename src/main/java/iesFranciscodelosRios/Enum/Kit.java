@@ -13,7 +13,7 @@ public enum Kit {
      * @param name nombre del tipo introducido por el usuario
      * @return devuelve el Enum si lo ha encontrado. si no devuelvo Null
      */
-    public Kit fromName(String name){
+    public static Kit fromName(String name){
         for (Kit e: Kit.values()){
             if(e.name().equalsIgnoreCase(name)){
                 return e;

@@ -14,7 +14,7 @@ public enum Category {
      * @param name nombre del tipo introducido por el usuario
      * @return devuelve el Enum si lo ha encontrado. si no devuelvo Null
      */
-    public Category fromName(String name){
+    public static Category fromName(String name){
         for (Category e: Category.values()){
             if(e.name().equalsIgnoreCase(name)){
                 return e;

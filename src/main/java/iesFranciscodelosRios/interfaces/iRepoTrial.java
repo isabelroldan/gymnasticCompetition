@@ -5,5 +5,4 @@ public interface iRepoTrial {
 	boolean modifyTrial();
 	boolean deleteTrial();
 	Trial showTrial();
-	Participation getWinner();
 }

@@ -89,6 +89,7 @@ opt 3:mostrarGestionPruebas()
 7. Ver ganador
 8.Salir
     * */
+    void trial();
 
     void crudTrials();
     /*
