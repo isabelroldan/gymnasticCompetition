@@ -28,10 +28,10 @@ public class GymnastController implements iController {
                     show();
                     break;
                 case 3:
-                    delete();
+                    modify();
                     break;
                 case 4:
-                    modify();
+                    delete();
                     break;
                 case 5:
                     showAll();
