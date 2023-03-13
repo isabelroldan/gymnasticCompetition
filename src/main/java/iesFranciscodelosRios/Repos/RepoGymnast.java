@@ -19,15 +19,6 @@ public class RepoGymnast implements iRepoGymnast {
         }
         return result;
     }
-
-    @Override
-    public boolean modifyGymnast(String DNI) {
-        boolean result=false;
-
-
-        return result;
-    }
-
     @Override
     public boolean deleteGymnast(String DNI) {
         Gymnast gym = showGymnast(DNI);

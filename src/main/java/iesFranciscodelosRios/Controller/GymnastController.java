@@ -80,6 +80,39 @@ public class GymnastController implements iController {
 
     @Override
     public void modify() {
+        String DNI = Read.readDNI("Insert Gymnast's DNI to Modify: ");
+        Gymnast gym = repoGym.showGymnast(DNI);
+        if (gym != null) {
+            System.out.println("Gymnast Found: " + gym.toString());
+            int opt;
+            do {
+                myGUI.updateGymnast();
+                switch (opt = Read.readInt("Select Option")) {
+                    case 0:
+                        System.out.println("Go Back");
+                        break;
+                    case 1:
+                        gym.setName(Read.readString("Insert Gymnast's new name: "));
+                        break;
+                    case 2:
+                        gym.setPhone(Read.readInt("Insert Gymnast's new phone: "));
+                        break;
+                    case 3:
+                        gym.setMail(Read.readString("Insert Gymnast's new mail: "));
+                        break;
+                    case 4:
+                        gym.setCat(Category.fromName(Read.readString("Insert Gymnast's new category: ")));
+                        break;
+                    case 5:
+                        gym.setClub(Read.readString("Insert Gymnast's new club name: "));
+                        break;
+                    default:
+                        System.out.println("Wrong Option");
+                }
+            } while (opt != 0);
+        } else {
+            System.out.println("404 Gymnast Not Found");
+        }
 
     }
 
