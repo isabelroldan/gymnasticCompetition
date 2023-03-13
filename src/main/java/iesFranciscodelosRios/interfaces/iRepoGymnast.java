@@ -1,8 +1,11 @@
 package iesFranciscodelosRios.interfaces;
 import iesFranciscodelosRios.model.Gymnast;
+import iesFranciscodelosRios.model.Person;
+import java.util.ArrayList;
+
 public interface iRepoGymnast {
-	boolean addGymnast();
-	boolean modifyGymnast();
-	boolean deleteGymnast();
-	Gymnast showGymnast(String dni);
+	boolean addGymnast(Gymnast gymnast);
+	boolean deleteGymnast(String DNI);
+	Gymnast showGymnast(String DNI);
+	void ShowAll();
 }
