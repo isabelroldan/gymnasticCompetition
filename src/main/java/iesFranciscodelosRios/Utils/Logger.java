@@ -12,6 +12,7 @@ public class Logger {
     public static java.util.logging.Logger CreateLogger(String filename) {
         java.util.logging.Logger logger= java.util.logging.Logger.getLogger(filename);
         logger.setLevel(Level.OFF);
+        CreateFile(logger,filename);
         return logger;
     }
     public static void CreateFile(java.util.logging.Logger logger, String filename){
