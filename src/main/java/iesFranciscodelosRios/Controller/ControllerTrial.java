@@ -1,16 +1,14 @@
 package iesFranciscodelosRios.Controller;
 import iesFranciscodelosRios.Utils.Read;
-import iesFranciscodelosRios.interfaces.*;
 import iesFranciscodelosRios.GUI.*;
 import iesFranciscodelosRios.model.*;
 
 public class ControllerTrial {
-    private final iGUI GUI = new Gui();
 
-    public void main(Trial t,Competition c) {
+    public void main(Trial t, Competition c) {
         boolean end = false;
         do {
-            GUI.trial();
+            Gui.trial();
             switch (Read.readInt("Enter a valid option")) {
                 case 0:
                     end=true;
@@ -19,25 +17,30 @@ public class ControllerTrial {
                     addParticipant(t, c);
                     break;
                 case 2:
-                    showAll(t);
+                    searchParticipant(t,Read.readInt("Enter a participant dorsal"));
                     break;
                 case 3:
-                    score(t);
+                    showAll(t);
                     break;
                 case 4:
-                    showWinner(t);
+                    score(t);
                     break;
                 case 5:
+                    showWinner(t);
+                    break;
+                default:
+                    System.out.println("Please enter a valid option");
+                    break;
 
 
             }
         } while (!end);
     }
     private void addParticipant(Trial t, Competition c){
-        int key=Read.readInt("Enter a bib number");
+        int key=Read.readInt("Enter a dorsal number");
         if(c.showParticipation(key)!=null){
             if(t.addParticipant(c.showParticipation(key))){
-                System.out.println("The participant with bib number "+key+" was added");
+                System.out.println("The participant with dorsal number "+key+" was added");
             }else{
                 System.out.println("The participant with number "+key+" already participates in the trial");
             }
@@ -51,11 +54,28 @@ public class ControllerTrial {
                 System.out.println(p);
             }
         }else{
-            System.out.println("Trial "+t.name+" has no participants added");
+            System.out.println("Trial has no participants added");
+        }
+    }
+    private void searchParticipant(Trial t,int dorsal){
+        if(t.searchParticipant(dorsal)!=null){
+            System.out.println(t.searchParticipant(dorsal));
+        }else{
+            System.out.println("The participant with dorsal number "+dorsal+" has not been found");
         }
     }
     private void score(Trial t){
-        System.out.println(t.score(Read.readInt("Enter the participant's bib number"),Read.readInt("point it from 0/10")));
+        Participation aux=t.searchParticipant(Read.readInt("Enter the participant's dorsal number"));
+        if(aux!=null){
+            System.out.println(aux);
+            if(t.score(aux.getDorsal(),Read.readInt("point it from 0/10"))){
+                System.out.println(aux);
+            }else{
+                System.out.println("It was not possible to score the participant");
+            }
+        }else{
+            System.out.println("The participant has not been found");
+        }
     }
     private void showWinner(Trial t){
         if(t.getWinner()!=null){
@@ -63,8 +83,9 @@ public class ControllerTrial {
                 System.out.println(p);
             }
         }else{
-            System.out.println("There are no participants in the trial "+t.name);
+            System.out.println("There are no participants in the trial ");
         }
     }
 
 }
+
