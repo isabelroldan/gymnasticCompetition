@@ -4,10 +4,11 @@ import iesFranciscodelosRios.Enum.Category;
 import iesFranciscodelosRios.Enum.Kit;
 import iesFranciscodelosRios.Enum.Type;
 import iesFranciscodelosRios.interfaces.*;
-
 import java.util.*;
+import java.util.logging.Logger;
 
 public final class Trial implements iTrial {
+    private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.model.Trial");
     private Type type;
     private Category category;
     private Kit kit;
@@ -30,22 +31,35 @@ public final class Trial implements iTrial {
      * @return el ArrayList con los participantes con maxima puntuacion. Si es mayor a 0. si no devuelve null
      */
     public ArrayList<Participation> getWinner() {
-        ArrayList<Participation> maxPoints = new ArrayList<>();
-        maxPoints.add(new Participation());
-        for (Participation aux : participations.values()) {
-            if (aux.getPoints() >= maxPoints.get(maxPoints.size() - 1).getPoints() && aux.getPoints() != 0) {
-                maxPoints.add(aux);
-                if (maxPoints.get(maxPoints.indexOf(aux) - 1) != null) {
-                    if (maxPoints.get(maxPoints.indexOf(aux) - 1).getPoints() < aux.getPoints()) {
-                        maxPoints.remove(maxPoints.indexOf(aux) - 1);
+        ArrayList<Participation>result=null;
+        try{
+            ArrayList<Participation> maxPoints = new ArrayList<>();
+            maxPoints.add(new Participation());
+            for (Participation aux : participations.values()) {
+                if (aux.getPoints() >= maxPoints.get(maxPoints.size() - 1).getPoints() && aux.getPoints() != 0) {
+                    maxPoints.add(aux);
+                    if (maxPoints.get(maxPoints.indexOf(aux) - 1) != null) {
+                        if (maxPoints.get(maxPoints.indexOf(aux) - 1).getPoints() < aux.getPoints()) {
+                            maxPoints.remove(maxPoints.indexOf(aux) - 1);
+                        }
                     }
                 }
             }
+            if (maxPoints.get(0) != null && maxPoints.get(0).getPoints() > 0) {
+                result=maxPoints;
+                logger.info("Ok. method getWinner. it was executed correctly");
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            logger.severe("Error. method getWinner. The participating collection is null");
+        }catch (ArrayIndexOutOfBoundsException e){
+            logger.severe("Error. method getWinner. The participation array is smaller than desired");
+        } finally {
+            if(result==null){
+                logger.warning("Warning. method getWinner. It has not been executed correctly");
+            }
         }
-        if (maxPoints.get(0) != null && maxPoints.get(0).getPoints() > 0) {
-            return maxPoints;
-        }
-        return null;
+        return result;
     }
 
     /**
@@ -55,13 +69,24 @@ public final class Trial implements iTrial {
      */
     @Override
     public boolean addParticipant(Participation b) {
-        if (b != null) {
-            if (!participations.containsKey(b.getDorsal())) {
-                participations.put(b.getDorsal(), b);
-                return true;
+        boolean end=false;
+        try{
+            if (b != null) {
+                if (!participations.containsKey(b.getDorsal())) {
+                    participations.put(b.getDorsal(), b);
+                    logger.info("OK. method addParticipant. it was executed correctly");
+                    end=true;
+                }
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            logger.severe("Error. method addParticipant. The participating collection is null");
+        }finally {
+            if(!end){
+                logger.warning("Warning. method addParticipant. It has not been executed correctly");
             }
         }
-        return false;
+        return end;
     }
 
     /**
@@ -72,13 +97,26 @@ public final class Trial implements iTrial {
      * @return devuelve true si se cumple el criterio y false en caso contrario
      */
     public boolean score(Integer dorsal,int points) {
-        if(searchParticipant(dorsal)!=null){
-            if(points<=10 && points>=0){
-                searchParticipant(dorsal).setPoints(points);
-                return true;
+        boolean end=false;
+        try {
+            if(searchParticipant(dorsal)!=null){
+                if(points<=10 && points>=0){
+                    searchParticipant(dorsal).setPoints(points);
+                    end=true;
+                }
+            }
+        }catch (ArithmeticException e){
+            e.printStackTrace();
+            logger.severe("Error. method score. An arithmetic error occurred");
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            logger.severe("Error. method score. The participating collection is null");
+        } finally {
+            if(!end){
+                logger.warning("Warning. method score. It has not been executed correctly");
             }
         }
-        return false;
+        return end;
     }
 
     /**
@@ -103,13 +141,6 @@ public final class Trial implements iTrial {
         return kit;
     }
 
-    /**
-     * En principio este setParticipations lo he creado para poder usarlo en los test pero tal vez deberia ser eliminado
-     */
-    public void setParticipations(HashMap<Integer, Participation> p) {
-        this.participations = p;
-    }
-
     public HashMap<Integer, Participation> getParticipations() {
         return participations;
     }
@@ -122,3 +153,4 @@ public final class Trial implements iTrial {
         return type == trial.type && category == trial.category && kit == trial.kit;
     }
 }
+
