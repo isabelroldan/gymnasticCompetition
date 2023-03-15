@@ -2,24 +2,34 @@ package iesFranciscodelosRios.Controller;
 
 
 import iesFranciscodelosRios.Enum.Category;
-import iesFranciscodelosRios.GUI.GUI;
+import iesFranciscodelosRios.GUI.Gui;
 import iesFranciscodelosRios.Repos.RepoGymnast;
 import iesFranciscodelosRios.interfaces.*;
 import iesFranciscodelosRios.Utils.*;
 import iesFranciscodelosRios.model.Gymnast;
 
+
+/**
+ * clase GymnastController que implementa la interfaz iController
+ * Esta interfaz tiene los metodos a utilizar en esta clase
+ */
 public class GymnastController implements iController {
-    private static iGUI myGUI=new GUI();
-    RepoGymnast repoGym=new RepoGymnast();
+
+    private RepoGymnast repoGym = RepoGymnast.getInstance();
+
     @Override
     public void main() {
+        /**
+         * menu encargado de controlar las opciones del CRUD relacionado con gimnasta
+         */
 
-        int opt;
-        do{
-            myGUI.crudGymnastic();
-            switch (opt=Read.readInt("Select Option")){
+        boolean end = false;
+        do {
+            Gui.crudGymnastic();
+            switch (Read.readInt("Select Option")) {
                 case 0:
-                    System.out.println("Go Back");
+                    System.out.println("Thanks for using this program");
+                    end = true;
                     break;
                 case 1:
                     add();
@@ -36,37 +46,60 @@ public class GymnastController implements iController {
                 case 5:
                     showAll();
                     break;
+                case 6:
+                    savegym();
                 default:
                     System.out.println("Wrong Option");
             }
 
-        }while (opt!=5);
+        } while (!end);
 
     }
 
+    private void savegym() {
+
+    }
+
+    /**
+     * Metodo que es encarga de obtener los datos del gimnasta a crear, este metodo llama al arrayList creado
+     * en el repositorio de gimnasta
+     */
     @Override
     public void add() {
-        Gymnast gym=new Gymnast(
+
+        if (repoGym.addGymnast(new Gymnast(
                 Read.readDNI("Insert Gymnast's DNI: "),
                 Read.readString("Insert Gymnast's name: "),
-                Read.readInt("Insert Gymnast's phone: "),
-                Read.readString("Insert Gymnast's mail: "),
+                Read.readTelephoneNumber(),
+                Read.readMail(),
                 Category.fromName(Read.readString("Insert Gymnast's Category:")),
-                Read.readString("Insert Gymnast Club's name: "));
-        repoGym.addGymnast(gym);
+                Read.readString("Insert Gymnast Club's name: ")))) {
+            System.out.println("Gymnast Added");
+        }else{
+            System.out.println("Error");
+        }
+
     }
 
+    /**
+     * Metodo encatgado de pedir el DNI del gimnasta a buscar,si es distinto de null
+     * llama al metodo show de RepoGymnast, y si es null da un mensaje de error
+     */
     @Override
     public void show() {
-        String DNI=Read.readDNI("Insert Gymnast's DNI to search: ");
-        Gymnast gym=repoGym.showGymnast(DNI);
-        if (gym!= null) {
+        String DNI = Read.readDNI("Insert Gymnast's DNI to search: ");
+        Gymnast gym = repoGym.showGymnast(DNI);
+        if (gym != null) {
             System.out.println("Gymnast Founded: " + gym.toString());
         } else {
             System.out.println("404 Gymnast Not Found");
         }
     }
 
+    /**
+     * metodo encargado de recibir un DNI que llama al metodo delete en el repositorio para eliminar el gimnasta
+     * buscado por su DNI,
+     */
     @Override
     public void delete() {
         String DNI = Read.readDNI("Insert Gymnast's DNI to Delete: ");
@@ -78,6 +111,10 @@ public class GymnastController implements iController {
         }
     }
 
+    /**
+     * metodo que pide el DNI de un gimnasta creado y despues muestra un
+     * menu con las opciones a modificar
+     */
     @Override
     public void modify() {
         String DNI = Read.readDNI("Insert Gymnast's DNI to Modify: ");
@@ -86,7 +123,7 @@ public class GymnastController implements iController {
             System.out.println("Gymnast Found: " + gym.toString());
             int opt;
             do {
-                myGUI.updateGymnast();
+                Gui.updateGymnast();
                 switch (opt = Read.readInt("Select Option")) {
                     case 0:
                         System.out.println("Go Back");
@@ -95,10 +132,10 @@ public class GymnastController implements iController {
                         gym.setName(Read.readString("Insert Gymnast's new name: "));
                         break;
                     case 2:
-                        gym.setPhone(Read.readInt("Insert Gymnast's new phone: "));
+                        gym.setPhone(Read.readTelephoneNumber());
                         break;
                     case 3:
-                        gym.setMail(Read.readString("Insert Gymnast's new mail: "));
+                        gym.setMail(Read.readMail());
                         break;
                     case 4:
                         gym.setCat(Category.fromName(Read.readString("Insert Gymnast's new category: ")));
@@ -109,15 +146,22 @@ public class GymnastController implements iController {
                     default:
                         System.out.println("Wrong Option");
                 }
-            } while (opt != 0);
+            } while (opt != 5);
         } else {
             System.out.println("404 Gymnast Not Found");
         }
 
     }
 
+    /**
+     * metodo que llama al metodo showALL
+     * hace que muestre todos los datos almacenados
+     * en el ArrayList
+     */
     @Override
     public void showAll() {
+
         repoGym.ShowAll();
     }
+
 }
