@@ -1,19 +1,14 @@
 package iesFranciscodelosRios.GUI;
 
-import iesFranciscodelosRios.interfaces.iGUI;
+public class Gui{
 
-public class Gui implements iGUI {
-
-    @Override
-    public void mainMenu() {
+    public static void mainMenu() {
         System.out.println("0. Exit\n" +
                 "1. Gymnastics manager\n" +
                 "2. Competitions manager\n" +
                 "3. Save and Exit");
     }
-
-    @Override
-    public void crudGymnastic() {
+    public static void crudGymnastic() {
         System.out.println("0. Back\n" +
                 "1. Federate gymnast\n" +
                 "2. Search gymnast\n" +
@@ -21,9 +16,7 @@ public class Gui implements iGUI {
                 "4. Delete gymnast\n" +
                 "5. Show all gymnast");
     }
-
-    @Override
-    public void updateGymnast() {
+    public static void updateGymnast() {
         System.out.println("0. Back\n" +
                 "1. Gymnastic modify\n" +
                 "2. Telephone modify\n" +
@@ -31,17 +24,13 @@ public class Gui implements iGUI {
                 "4. Category\n" +
                 "5. Club");
     }
-
-    @Override
-    public void competitionManager() {
+    public static void competitionManager() {
         System.out.println("0. Back\n" +
                 "1. Manage competition\n"+
                 "2. Manage participations\n"+
                 "3. Manage trials");
     }
-    /*Esto deberia implementarse en repo_competition*/
-    @Override
-    public void crudCompetition() {
+    public static void crudCompetition() {
         System.out.println("0. Back\n"+
                 "1. Create competition\n"+
                 "2. Competition update\n"+
@@ -49,36 +38,26 @@ public class Gui implements iGUI {
                 "4. Delete competition\n"+
                 "5. Show all competitions");
     }
-/*Esto deberia implementarse dentro de competition*/
-    @Override
-    public void updateCompetitions() {
+    public static void updateCompetitions() {
         System.out.println("0. Back\n"+
                 "1. Description\n"+
                 "2. Date create\n");
     }
-    /*Lo mas probable esque este en competition ya que se deberia tener registro de todos los participantes en una competicion
-    * o tal vez en pruebas*/
-    @Override
-    public void crudPaticipations() {
+    public static void crudPaticipations() {
         System.out.println("0. Back\n"+
                 "1. Create participation\n"+
                 "2. Update participation\n"+
                 "3. Search participation\n"+
-                "4. Delete participation\n"+
-                "5. Score");
+                "4. Delete participation\n");
     }
-
-    @Override
-    public void updateParticipation() {
+    public static void updateParticipation() {
         System.out.println("0. Back\n"+
                 "1. Update dorsal\n"+
                 "2. Update participation\n"+
                 "3. Update hour\n"+
                 "4. Update score\n");
     }
-    /*Este crud deberia implementarse en competition*/
-    @Override
-    public void crudTrials() {
+    public static void crudTrials() {
         System.out.println("0. Back\n"+
                 "1. Create trial\n"+
                 "2. Update trial\n"+
@@ -86,23 +65,20 @@ public class Gui implements iGUI {
                 "4. Delete trial\n");
     }
     /*Este deberia estar incluido en trial*/
-    public void OPTtrial(){
+    public static void trial(){
         System.out.println("0. Back\n" +
                 "1. Enter participation\n"+
                 "2. Show all participations\n"+
-                "4. Score a participant"+
-                "5. Show winner\n");
+                "3. Score a participant\n"+
+                "4. Show winner\n");
     }
-/*Este deberia implementarse en trial*/
-    @Override
-    public void updateTrial() {
+    public static void updateTrial() {
         System.out.println("0. Back\n"+
                 "1. Update type\n"+
                 "2. Update category\n"+
                 "3. Update kit");
     }
 
-    @Override
     public void crudGroup() {
         System.out.println("0. Back\n"+
                 "1. Create group\n"+
@@ -113,8 +89,7 @@ public class Gui implements iGUI {
                 "6. Delete Gymnast");
     }
 
-    @Override
-    public void updateGroup() {
+    public static void updateGroup() {
         System.out.println("0. Back\n"+
                 "1. Club");
     }
