@@ -5,21 +5,13 @@ import iesFranciscodelosRios.model.Gymnast;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-
-public class RepoGymnast implements iRepoGymnast {
-    private static RepoGymnast instance;
-    private RepoGymnast() {
-
-    }
-    public static RepoGymnast getInstance() {
-        if(instance == null){
-            instance = new RepoGymnast();
-        }
-        return instance;
-    }
+public final class RepoGymnast implements iRepoGymnast {
     private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoGymnast");
-    ArrayList<Gymnast> gymnastes=new ArrayList<>();
-
+    private ArrayList<Gymnast> gymnastes;
+    private static RepoGymnast instance=null;
+    private RepoGymnast() {
+        gymnastes=new ArrayList<>();
+    }
     /**
      * metodo encargado de añadir un gimnasta al arraylist
      * recibe los datos del gimnasta
@@ -30,7 +22,7 @@ public class RepoGymnast implements iRepoGymnast {
         boolean result=false;
         try {
             if (gymnastes.contains(gym) || gym.getPhone() == -1 || gym.getMail() == null || gym.getCat() == null){
-             } else {
+            } else {
                 gymnastes.add(gym);
                 result = true;
             }
@@ -89,7 +81,6 @@ public class RepoGymnast implements iRepoGymnast {
     /**
      *Muestra todos los datos almacenados del arrayList
      */
-    @Override
     public void ShowAll() {
         try {
             if (gymnastes.isEmpty()) {
@@ -97,7 +88,7 @@ public class RepoGymnast implements iRepoGymnast {
             } else {
                 System.out.println("Gymnast List:");
                 for (Gymnast gymnast : gymnastes) {
-                    System.out.println(gymnastes.toString());
+                    System.out.println(gymnast.toString());
                 }
             }
         }catch (NullPointerException e){
@@ -106,5 +97,11 @@ public class RepoGymnast implements iRepoGymnast {
             logger.warning("deleteGymnast failed to initialize ");
         }
 
+    }
+    public static RepoGymnast getInstance() {
+        if(instance == null){
+            instance = new RepoGymnast();
+        }
+        return instance;
     }
 }
