@@ -172,17 +172,17 @@ public class Read {
         }
     }
 
-    public static String readTelephoneNumber(){
-        String result=null;
-        String telephone=readString("Enter a valid telephone number with a code number [+01 123456789]");
+    public static int readTelephoneNumber(){
+        int result=-1;
+        String telephone=readString("Enter a valid telephone number:");
         if(telephone.matches("[0-9]{9,11}")){
-            result= telephone;
+            result= Integer.parseInt(telephone);
         }
         return result;
     }
     public static String readMail(){
         String result=null;
-        String mail=readString("Enter a valid mail [example@mail.com");
+        String mail=readString("Enter a valid mail:");
         if(mail.matches("[a-zA-Z]*[0-9]?@[a-zA-Z]*.[A-Za-z]{2,3}")){
             result=mail;
         }
