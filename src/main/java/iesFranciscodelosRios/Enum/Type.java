@@ -10,7 +10,7 @@ public enum Type {
      * @param name nombre del tipo introducido por el usuario
      * @return devuelve el Enum si lo ha encontrado. si no devuelvo Null
      */
-    public Type fromName(String name){
+    public static Type fromName(String name){
         for (Type e: Type.values()){
             if(e.name().equalsIgnoreCase(name)){
                 return e;
