@@ -175,7 +175,7 @@ public class Read {
     public static String readTelephoneNumber(){
         String result=null;
         String telephone=readString("Enter a valid telephone number with a code number [+01 123456789]");
-        if(telephone.matches("\\+?[0-9]{2} ?[0-9]{9,11}")){
+        if(telephone.matches("[0-9]{9,11}")){
             result= telephone;
         }
         return result;
@@ -183,7 +183,7 @@ public class Read {
     public static String readMail(){
         String result=null;
         String mail=readString("Enter a valid mail [example@mail.com");
-        if(mail.matches("/[a-zA-Z]*[0-9]?@[a-zA-Z]*.[A-Za-z]{2,3}")){
+        if(mail.matches("[a-zA-Z]*[0-9]?@[a-zA-Z]*.[A-Za-z]{2,3}")){
             result=mail;
         }
         return result;
