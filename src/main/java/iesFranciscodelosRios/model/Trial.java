@@ -126,7 +126,11 @@ public final class Trial implements iTrial {
      * @return devuelve el objeto encontrado o null
      */
     public Participation searchParticipant(Integer dorsal){
-        return participations.get(dorsal);
+        Participation result=null;
+        if(participations!=null && participations.get(dorsal)!=null){
+            result=participations.get(dorsal);
+        }
+        return result;
     }
 
     public Type getType() {
