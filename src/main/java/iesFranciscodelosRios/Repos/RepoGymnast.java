@@ -5,6 +5,13 @@ import iesFranciscodelosRios.model.Gymnast;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="Agenda")
+@XmlAccessorType(XmlAccessType.FIELD)
 public final class RepoGymnast implements iRepoGymnast {
     private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoGymnast");
     private ArrayList<Gymnast> gymnastes;
@@ -21,11 +28,11 @@ public final class RepoGymnast implements iRepoGymnast {
     public boolean addGymnast(Gymnast gym) {
         boolean result=false;
         try {
-            if (gymnastes.contains(gym) || gym.getPhone() == -1 || gym.getMail() == null || gym.getCat() == null){
-            } else {
-                gymnastes.add(gym);
-                result = true;
-            }
+                if (gymnastes.contains(gym) || gym.getPhone() == -1 || gym.getMail() == null || gym.getCat() == null){
+                } else {
+                    gymnastes.add(gym);
+                    result = true;
+                }
         }catch (NullPointerException e){
             logger.severe("An Error Occurred: "+e.getMessage());
 
@@ -70,12 +77,13 @@ public final class RepoGymnast implements iRepoGymnast {
      */
     @Override
     public Gymnast showGymnast(String DNI) {
+        Gymnast result = null;
         for (Gymnast gymnast : gymnastes){
             if(gymnast.getDNI().equals(DNI)){
-                return gymnast;
+                result=gymnast;
             }
         }
-        return null;
+        return result;
     }
 
     /**

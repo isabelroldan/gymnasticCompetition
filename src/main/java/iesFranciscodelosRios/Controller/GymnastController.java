@@ -15,6 +15,7 @@ import iesFranciscodelosRios.model.Gymnast;
  */
 public class GymnastController implements iController {
 
+    private static GymnastController instance=null;
     private RepoGymnast repoGym = RepoGymnast.getInstance();
 
     @Override
@@ -46,17 +47,11 @@ public class GymnastController implements iController {
                 case 5:
                     showAll();
                     break;
-                case 6:
-                    savegym();
                 default:
                     System.out.println("Wrong Option");
             }
 
         } while (!end);
-
-    }
-
-    private void savegym() {
 
     }
 
@@ -66,7 +61,6 @@ public class GymnastController implements iController {
      */
     @Override
     public void add() {
-
         if (repoGym.addGymnast(new Gymnast(
                 Read.readDNI("Insert Gymnast's DNI: "),
                 Read.readString("Insert Gymnast's name: "),
@@ -76,7 +70,7 @@ public class GymnastController implements iController {
                 Read.readString("Insert Gymnast Club's name: ")))) {
             System.out.println("Gymnast Added");
         }else{
-            System.out.println("Error");
+            System.out.println("Try Again");
         }
 
     }
@@ -162,6 +156,12 @@ public class GymnastController implements iController {
     public void showAll() {
 
         repoGym.ShowAll();
+    }
+    public static GymnastController getInstance() {
+        if(instance == null){
+            instance = new GymnastController();
+        }
+        return instance;
     }
 
 }

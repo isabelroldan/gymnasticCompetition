@@ -25,7 +25,6 @@ public class Gymnast extends Person{
 
     /**
      * Getters de categoria y club
-     * @return
      */
     public Category getCat() {
         return cat;
@@ -37,7 +36,6 @@ public class Gymnast extends Person{
 
     /**
      * setters de categoria y club
-     * @param cat
      */
     public void setCat(Category cat) {
         this.cat = cat;
@@ -49,12 +47,13 @@ public class Gymnast extends Person{
 
     /**
      * toString de la clase gymnast
+     * que concatena con el to string de persona
      */
     @Override
     public String toString() {
         return super.toString() +
                 "Gymnast{" +
-                "cat=" + cat +
+                "category=" + cat +
                 ", Club='" + Club + '\'' +
                 '}';
     }
