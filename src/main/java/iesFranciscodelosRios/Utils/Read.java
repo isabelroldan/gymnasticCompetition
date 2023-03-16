@@ -2,10 +2,10 @@ package iesFranciscodelosRios.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Read {
+    private final static java.util.logging.Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Utils.Read");
     private final static Scanner sc = new Scanner(System.in);
 
     /**
@@ -24,6 +24,7 @@ public class Read {
                 isCorrect = true;
             } catch (Exception e) {
                 System.out.println(Utils.rojo + "Enter a valid number" + Utils.b);
+                logger.warning("Warning "+e.getMessage());
             }
             sc.nextLine();
         } while (!isCorrect);
@@ -37,54 +38,16 @@ public class Read {
      * @return return a String
      */
     public static String readString(String msn) {
-        Scanner sc = new Scanner(System.in);
-        String evento = null;
+        String result = null;
         try {
             System.out.println(Utils.amarillo + msn);
-            evento = sc.nextLine();
-            evento = evento.toUpperCase();
-
+            result = sc.nextLine();
         } catch (Exception e) {
             System.out.println(Utils.rojo + "Enter the option correct" + Utils.b);
-        }
-        return evento;
-    }
-
-    public static double readDouble(String msn) {
-        double result = -1.0;
-        try {
-            System.out.println(msn);
-            result = sc.nextDouble();
-        } catch (Exception e) {
-            System.out.println(e);
+            logger.warning("Warning "+e.getMessage());
         }
         return result;
     }
-
-    /**
-     * Metodo el cual leera una fecha para retornarla en el formato correspondiente
-     *
-     * @param msn Mensaje a imprimir
-     * @return fecha completa
-     */
-    public static Date readDate(String msn) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        dateFormat.setLenient(false);
-        Date date = null;
-        boolean success = false;
-        while (!success) {
-            System.out.println(Utils.amarillo + msn + " Enter a date in format dd/MM/yyyy:" + Utils.b);
-            String inputDate = sc.nextLine();
-            try {
-                date = dateFormat.parse(inputDate);
-                success = true;
-            } catch (ParseException e) {
-                System.out.println(Utils.rojo + "Invalid date format, please try again." + Utils.b);
-            }
-        }
-        return date;
-    }
-
     /**
      * Metodo que leera un dni a partir de que cumpla las requisitos de un dni. si no volvera a pedirlo. Este metodo
      * es capaz de calcular la letra del dni si el usuario no lo introduce
@@ -93,43 +56,46 @@ public class Read {
      * @return retorna el dni completo
      */
     public static String readDNI(String msn) {
-        String dni;
-        boolean isCorrect;
-        do {
-            isCorrect = true;
-            System.out.println(Utils.amarillo + msn + Utils.b);
-            dni = sc.nextLine();
-            dni = dni.toUpperCase();
-            if (dni.length() == 9) { //buscara que todos los numeros sean numeros
-                String numerosDNI = "";
-                for (int c = 0; c < dni.length() - 1 && isCorrect; c++) {
-                    isCorrect = isNumber(dni.charAt(c));
-                    numerosDNI += dni.charAt(c);//esto los almacena correctamente
-                }
-                if (isCorrect) { //si los 8 primeros digitos so5n numeros entonces se comprueba que la letra sea correcta
-                    if (dni.charAt(8) == calculateLetterDNI(numerosDNI)) {
-                        isCorrect = true;
+        String dni=null;
+        try{
+            boolean isCorrect;
+            do {
+                isCorrect = true;
+                System.out.println(Utils.amarillo + msn + Utils.b);
+                dni = sc.nextLine();
+                if (dni.length() == 9) { //buscara que todos los numeros sean numeros
+                    String numerosDNI = "";
+                    for (int c = 0; c < dni.length() - 1 && isCorrect; c++) {
+                        isCorrect = isNumber(dni.charAt(c));
+                        numerosDNI += dni.charAt(c);//esto los almacena correctamente
+                    }
+                    if (isCorrect) { //si los 8 primeros digitos so5n numeros entonces se comprueba que la letra sea correcta
+                        if (dni.charAt(8) == calculateLetterDNI(numerosDNI)) {
+                            isCorrect = true;
+                        } else {
+                            isCorrect = false;
+                        }
+                    }
+                } else if (dni.length() == 8) {
+                    boolean isTrue = Utils.confirm("La letra es " + calculateLetterDNI(dni) + " ?");
+                    if (isTrue) {
+                        dni += calculateLetterDNI(dni);
                     } else {
                         isCorrect = false;
                     }
-                }
-            } else if (dni.length() == 8) {
-                boolean isTrue = Utils.confirm("La letra es " + calculateLetterDNI(dni) + " ?");
-                if (isTrue) {
-                    dni += calculateLetterDNI(dni);
+                } else if (dni.length() == 8 || dni.length() == 9) {
+                    System.out.println(Utils.rojo + "Introduce un dni que no este registrado" + Utils.b);
+                    isCorrect = false;
                 } else {
                     isCorrect = false;
                 }
-            } else if (dni.length() == 8 || dni.length() == 9) {
-                System.out.println(Utils.rojo + "Introduce un dni que no este registrado" + Utils.b);
-                isCorrect = false;
-            } else {
-                isCorrect = false;
-            }
-            if (dni.length() != 8 && dni.length() != 9 || !isCorrect) {
-                System.out.println(Utils.rojo + "Introduzca correctamente el DNI" + Utils.b);
-            }
-        } while (!isCorrect);
+                if (dni.length() != 8 && dni.length() != 9 || !isCorrect) {
+                    System.out.println(Utils.rojo + "Introduzca correctamente el DNI" + Utils.b);
+                }
+            } while (!isCorrect);
+        }catch (NumberFormatException e){
+            logger.severe("Error "+e.getMessage());
+        }
 
         return dni;
     }
@@ -160,9 +126,16 @@ public class Read {
         char letra = letras[Integer.valueOf(numeroDNI) % 23]; //Integer.valueOF(numeroDNI)  coge la cadena string NumeroDNI lo convertira a numerico (como si fuese un int)
         return letra;
     }
-
-    public static boolean findOutDate(String date) {
+    /**
+     * Metodo el cual leera una fecha para retornarla en el formato correspondiente
+     *
+     * @param msn Mensaje a imprimir
+     * @return fecha completa
+     */
+    public static boolean readDate(String msn) {
         try {
+            System.out.println(Utils.amarillo+msn+Utils.b);
+            String date= sc.nextLine();
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
             formatDate.setLenient(false);
             formatDate.parse(date);
