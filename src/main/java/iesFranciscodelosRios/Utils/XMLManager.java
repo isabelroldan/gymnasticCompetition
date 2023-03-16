@@ -1,8 +1,5 @@
 package iesFranciscodelosRios.Utils;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -18,7 +15,7 @@ public class XMLManager {
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            m.marshal(c, new File(fichero));
+            m.marshal(c, new File("XML\\"+fichero));
             result = true;
         } catch (JAXBException e) {
             e.printStackTrace();
@@ -28,19 +25,18 @@ public class XMLManager {
 
     public static <T> T readXML(T c, String fichero) {
         File file=new File(fichero);
-        T result = c;
         if(file.exists()){
             JAXBContext context;
             try {
-                context = JAXBContext.newInstance(result.getClass());
+                context = JAXBContext.newInstance(c.getClass());
                 Unmarshaller m = context.createUnmarshaller();
-                result= (T) m.unmarshal(new File(fichero));
+                c= (T) m.unmarshal(new File("XML\\"+fichero));
             } catch (JAXBException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-        return result;
+        return c;
     }
 }
