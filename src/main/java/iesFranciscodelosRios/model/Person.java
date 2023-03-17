@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 
-public class Person{
+public class Person implements Comparable<Person>{
     /**
      * Creacion de las clases protegidas DNI,Name,Phone y Mail
      */
@@ -89,11 +89,18 @@ public class Person{
     @Override
     public String toString() {
         return "Gymnast: \n\t" +
-                "DNI='" + DNI + "\n\t" +
                 "Name:'" + Name + "\n\t" +
+                "DNI='" + DNI + "\n\t" +
                 "Phone:" + Phone +"\n\t"+
                 "Mail:'" + Mail;
     }
 
-
+    /**
+     * @param o the object to be compared.
+     * @return person orden by name
+     */
+    @Override
+    public int compareTo(Person o) {
+        return this.Name.compareTo(o.Name);
+    }
 }
