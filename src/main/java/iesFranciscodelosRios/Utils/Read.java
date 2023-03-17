@@ -1,7 +1,14 @@
 package iesFranciscodelosRios.Utils;
 
+import java.io.BufferedReader;
+import java.io.Console;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Read {
@@ -55,47 +62,44 @@ public class Read {
      * @param msn Mensaje que se leera
      * @return retorna el dni completo
      */
-    public static String readDNI(String msn) {
-        String dni=null;
-        try{
-            boolean isCorrect;
-            do {
-                isCorrect = true;
-                System.out.println(Utils.amarillo + msn + Utils.b);
-                dni = sc.nextLine();
-                if (dni.length() == 9) { //buscara que todos los numeros sean numeros
-                    String numerosDNI = "";
-                    for (int c = 0; c < dni.length() - 1 && isCorrect; c++) {
-                        isCorrect = isNumber(dni.charAt(c));
-                        numerosDNI += dni.charAt(c);//esto los almacena correctamente
-                    }
-                    if (isCorrect) { //si los 8 primeros digitos so5n numeros entonces se comprueba que la letra sea correcta
-                        if (dni.charAt(8) == calculateLetterDNI(numerosDNI)) {
-                            isCorrect = true;
-                        } else {
-                            isCorrect = false;
-                        }
-                    }
-                } else if (dni.length() == 8) {
-                    boolean isTrue = Utils.confirm("La letra es " + calculateLetterDNI(dni) + " ?");
-                    if (isTrue) {
-                        dni += calculateLetterDNI(dni);
-                    } else {
-                        isCorrect = false;
-                    }
-                } else if (dni.length() == 8 || dni.length() == 9) {
-                    System.out.println(Utils.rojo + "Introduce un dni que no este registrado" + Utils.b);
-                    isCorrect = false;
-                } else {
-                    isCorrect = false;
+    public static String readDNI(String msn){
+        String dni;
+        boolean isCorrect;
+        do{
+            isCorrect=true;
+            System.out.println(Utils.amarillo+msn+Utils.b);
+            dni=sc.nextLine();
+            dni=dni.toUpperCase();
+            if (dni.length()==9){ //buscara que todos los numeros sean numeros
+                String numerosDNI="";
+                for(int c=0;c<dni.length()-1 && isCorrect;c++){
+                    isCorrect=isNumber(dni.charAt(c));
+                    numerosDNI+=dni.charAt(c);//esto los almacena correctamente
                 }
-                if (dni.length() != 8 && dni.length() != 9 || !isCorrect) {
-                    System.out.println(Utils.rojo + "Introduzca correctamente el DNI" + Utils.b);
+                if(isCorrect){ //si los 8 primeros digitos so5n numeros entonces se comprueba que la letra sea correcta
+                    if(dni.charAt(8)== calculateLetterDNI(numerosDNI)){
+                        isCorrect=true;
+                    }else{
+                        isCorrect=false;
+                    }
                 }
-            } while (!isCorrect);
-        }catch (NumberFormatException e){
-            logger.severe("Error "+e.getMessage());
-        }
+            }else if(dni.length()==8){
+                boolean isTrue=Utils.confirm("La letra es "+ calculateLetterDNI(dni)+" ?");
+                if(isTrue){
+                    dni+= calculateLetterDNI(dni);
+                }else{
+                    isCorrect=false;
+                }
+            } else if (dni.length()==8 || dni.length()==9){
+                System.out.println(Utils.rojo+"Introduce un dni que no este registrado"+ Utils.b);
+                isCorrect=false;
+            }else{
+                isCorrect=false;
+            }
+            if (dni.length()!=8 && dni.length()!=9 || !isCorrect) {
+                System.out.println(Utils.rojo+"Introduzca correctamente el DNI"+ Utils.b);
+            }
+        }while(!isCorrect);
 
         return dni;
     }
@@ -160,5 +164,44 @@ public class Read {
             result=mail;
         }
         return result;
+    }
+    public static char[] readPassword() {
+        char[] password = new char[0];
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        try {
+            while (password.length < 5) {
+                System.out.print("Enter password: ");
+                password = reader.readLine().toCharArray();
+
+                if (password.length < 5) {
+                    System.out.println("Password must be at least 5 characters long.");
+                }
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("Error reading password", e);
+        }
+
+        // Encrypt password before returning it
+        char[] encryptedPassword = encrypt(password);
+
+        // Clear the original password from memory for security reasons
+        Arrays.fill(password, ' ');
+
+        return encryptedPassword;
+    }
+
+    private static char[] encrypt(char[] password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(new String(password).getBytes());
+            char[] encryptedPassword = new char[hash.length];
+            for (int i = 0; i < hash.length; i++) {
+                encryptedPassword[i] = (char) (hash[i] & 0xFF);
+            }
+            return encryptedPassword;
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 algorithm not available");
+        }
     }
 }
