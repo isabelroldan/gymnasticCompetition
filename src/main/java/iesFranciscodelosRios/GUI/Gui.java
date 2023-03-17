@@ -72,7 +72,7 @@ public class Gui{
                 "1. Enter participation\n"+
                 "2. Search participant\n"+
                 "3. Show all participations\n"+
-                "4. Score a participant\n"+
+                "4. Judge manager\n"+
                 "5. Show winner\n");
     }
     public static void updateTrial() {
@@ -97,5 +97,17 @@ public class Gui{
                 "2. Delete club\n"+
                 "3. search club\n"+
                 "4. Show clubs");
+    }
+    // Este metodo se implementa en controllerTrial
+    public static void JudgeManager(){
+        System.out.println("0. Back\n"+
+                "1. Score ");
+    }
+    public static void crudJudge(){
+        System.out.println("0. Back\n"+
+                "1. Register new Judge\n"+
+                "2. Remove some judge\n"+
+                "3. search some judge\n"+
+                "4. Show all judges");
     }
 }
