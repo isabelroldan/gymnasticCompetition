@@ -78,7 +78,17 @@ public final class Trial implements iTrial {
         }
         return end;
     }
-
+    public boolean login(Judge j,String dni,char[] password){
+        boolean result=false;
+        try{
+            if(j.getDNI().equalsIgnoreCase(dni) && Arrays.equals(j.getPassword(),password)){
+                result=true;
+            }
+        }catch (NullPointerException e) {
+            logger.severe("Error " + e.getMessage());
+        }
+        return result;
+    }
     /**
      * Si se cumple el criterio de puntuacion se le asignara al usuario con el dorsal asignado
      * la puntuacion correspondiente a su actuacion.
@@ -151,5 +161,3 @@ public final class Trial implements iTrial {
         return type == trial.type && category == trial.category && kit == trial.kit;
     }
 }
-
-
