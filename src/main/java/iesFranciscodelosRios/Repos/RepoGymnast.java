@@ -4,20 +4,19 @@ import iesFranciscodelosRios.interfaces.iRepoGymnast;
 import iesFranciscodelosRios.model.Gymnast;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import javax.xml.bind.annotation.*;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name="Agenda")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class RepoGymnast implements iRepoGymnast {
+public final class RepoGymnast implements iRepoGymnast  {
+    @XmlTransient
     private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoGymnast");
-    private ArrayList<Gymnast> gymnastes;
-    private static RepoGymnast instance=null;
+    @XmlElement(name="Gymnast")
+    private ArrayList<Gymnast> gymnastes=new ArrayList<>();
+    @XmlTransient
+    private static RepoGymnast _instance =null;
     private RepoGymnast() {
-        gymnastes=new ArrayList<>();
+
     }
     /**
      * metodo encargado de añadir un gimnasta al arraylist
@@ -57,7 +56,7 @@ public final class RepoGymnast implements iRepoGymnast {
             if (gym != null) {
                 result = gymnastes.remove(gym);
                 if(result){
-                    System.out.println("Gymnast with DNI "+DNI+" has been deleted successfully");
+                    System.out.println("Gymnast with DNI: "+DNI+" has been deleted successfully");
                 }
             }
         } catch (Exception e) {
@@ -104,12 +103,14 @@ public final class RepoGymnast implements iRepoGymnast {
         }finally {
             logger.warning("deleteGymnast failed to initialize ");
         }
+    }
 
-    }
-    public static RepoGymnast getInstance() {
-        if(instance == null){
-            instance = new RepoGymnast();
+    public static RepoGymnast get_instance() {
+        if(_instance == null){
+            _instance = new RepoGymnast();
         }
-        return instance;
+        return _instance;
     }
+
+
 }

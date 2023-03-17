@@ -14,10 +14,8 @@ import iesFranciscodelosRios.model.Gymnast;
  * Esta interfaz tiene los metodos a utilizar en esta clase
  */
 public class GymnastController implements iController {
-
-    private static GymnastController instance=null;
-    private RepoGymnast repoGym = RepoGymnast.getInstance();
-
+    private RepoGymnast repoGym = XMLManager.readXML(RepoGymnast.get_instance(),"Gymnastes.xml");
+    private static GymnastController _instance =null;
     @Override
     public void main() {
         /**
@@ -157,11 +155,11 @@ public class GymnastController implements iController {
 
         repoGym.ShowAll();
     }
-    public static GymnastController getInstance() {
-        if(instance == null){
-            instance = new GymnastController();
+    public static GymnastController get_instance() {
+        if(_instance == null){
+            _instance = new GymnastController();
         }
-        return instance;
+        return _instance;
     }
 
 }

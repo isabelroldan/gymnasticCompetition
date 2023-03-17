@@ -3,10 +3,14 @@ package iesFranciscodelosRios.model;
 
 import iesFranciscodelosRios.Enum.Category;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 
 /**
  * clase gymnast que hereda de la clase person
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Gymnast extends Person{
     /**
      * Creacion de categoria y club
@@ -14,6 +18,9 @@ public class Gymnast extends Person{
     private Category cat;
     private String Club;
 
+    public Gymnast() {
+
+    }
     /**
      * constructor full-equip
      */
@@ -51,11 +58,9 @@ public class Gymnast extends Person{
      */
     @Override
     public String toString() {
-        return super.toString() +
-                "Gymnast{" +
-                "category=" + cat +
-                ", Club='" + Club + '\'' +
-                '}';
+        return super.toString() +"\n\t" +
+                "Category: " + cat + "\n\t" +
+                "Club: " + Club + "\n\t";
     }
 
 
