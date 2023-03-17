@@ -6,6 +6,7 @@ public class Gui{
         System.out.println("0. Exit\n" +
                 "1. Gymnastics manager\n" +
                 "2. Competitions manager\n" +
+                "3. Clubs manager\n"+
                 "3. Save and Exit");
     }
     public static void crudGymnastic() {
@@ -28,7 +29,8 @@ public class Gui{
         System.out.println("0. Back\n" +
                 "1. Manage competition\n"+
                 "2. Manage participations\n"+
-                "3. Manage trials");
+                "3. Manage trials\n"+
+                "4. Manage Group");
     }
     public static void crudCompetition() {
         System.out.println("0. Back\n"+
@@ -79,7 +81,7 @@ public class Gui{
                 "3. Update kit");
     }
 
-    public void crudGroup() {
+    public static void crudGroup() {
         System.out.println("0. Back\n"+
                 "1. Create group\n"+
                 "2. Show groups\n"+
@@ -88,9 +90,11 @@ public class Gui{
                 "5. Enter gymnast\n"+
                 "6. Delete Gymnast");
     }
-
-    public static void updateGroup() {
+    public static void crudClub(){
         System.out.println("0. Back\n"+
-                "1. Club");
+                "1. Create club\n"+
+                "2. Delete club\n"+
+                "3. search club\n"+
+                "4. Show clubs");
     }
 }
