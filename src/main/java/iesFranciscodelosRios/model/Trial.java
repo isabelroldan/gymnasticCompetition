@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public final class Trial implements iTrial {
-    private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.model.Trial");
+    private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("model.Trial");
     private Type type;
     private Category category;
     private Kit kit;
@@ -32,23 +32,13 @@ public final class Trial implements iTrial {
      */
     public ArrayList<Participation> getWinner() {
         ArrayList<Participation>result=null;
+        ArrayList<Participation> aux=new ArrayList<>();
         try{
-            ArrayList<Participation> maxPoints = new ArrayList<>();
-            maxPoints.add(new Participation());
-            for (Participation aux : participations.values()) {
-                if (aux.getPoints() >= maxPoints.get(maxPoints.size() - 1).getPoints() && aux.getPoints() != 0) {
-                    maxPoints.add(aux);
-                    if (maxPoints.get(maxPoints.indexOf(aux) - 1) != null) {
-                        if (maxPoints.get(maxPoints.indexOf(aux) - 1).getPoints() < aux.getPoints()) {
-                            maxPoints.remove(maxPoints.indexOf(aux) - 1);
-                        }
-                    }
-                }
+            for (Integer key : participations.keySet()){
+                aux.add(participations.get(key));
             }
-            if (maxPoints.get(0) != null && maxPoints.get(0).getPoints() > 0) {
-                result=maxPoints;
-                logger.info("Ok. method getWinner. it was executed correctly");
-            }
+            Collections.sort(aux);
+            result=aux;
         }catch (NullPointerException e){
             e.printStackTrace();
             logger.severe("Error. method getWinner. The participating collection is null");
@@ -149,6 +139,10 @@ public final class Trial implements iTrial {
         return participations;
     }
 
+    public void setParticipations(HashMap<Integer, Participation> participations) {
+        this.participations = participations;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -157,4 +151,5 @@ public final class Trial implements iTrial {
         return type == trial.type && category == trial.category && kit == trial.kit;
     }
 }
+
 
