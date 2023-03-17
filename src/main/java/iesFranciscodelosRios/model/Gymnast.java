@@ -62,6 +62,4 @@ public class Gymnast extends Person{
                 "Category: " + cat + "\n\t" +
                 "Club: " + Club + "\n\t";
     }
-
-
 }

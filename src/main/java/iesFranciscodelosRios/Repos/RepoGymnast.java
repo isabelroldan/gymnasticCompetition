@@ -3,6 +3,7 @@ package iesFranciscodelosRios.Repos;
 import iesFranciscodelosRios.interfaces.iRepoGymnast;
 import iesFranciscodelosRios.model.Gymnast;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.*;
 
@@ -94,6 +95,7 @@ public final class RepoGymnast implements iRepoGymnast  {
                 System.out.println("No Gymnastes added.");
             } else {
                 System.out.println("Gymnast List:");
+                Collections.sort(gymnastes);
                 for (Gymnast gymnast : gymnastes) {
                     System.out.println(gymnast.toString());
                 }

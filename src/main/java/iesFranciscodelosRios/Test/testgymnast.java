@@ -5,7 +5,7 @@ import iesFranciscodelosRios.Utils.XMLManager;
 
 public class testgymnast {
     public static void main(String[] args) {
-        GymnastController c=new GymnastController();
+        GymnastController c=GymnastController.get_instance();
         c.main();
         XMLManager.writeXML(RepoGymnast.get_instance(),"Gymnastes.xml");
     }
