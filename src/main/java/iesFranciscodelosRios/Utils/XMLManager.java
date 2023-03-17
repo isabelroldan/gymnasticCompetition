@@ -24,7 +24,7 @@ public class XMLManager {
     }
 
     public static <T> T readXML(T c, String fichero) {
-        File file=new File(fichero);
+        File file=new File("XML\\"+fichero);
         if(file.exists()){
             JAXBContext context;
             try {
