@@ -70,9 +70,10 @@ public class Gui{
     public static void trial(){
         System.out.println("0. Back\n" +
                 "1. Enter participation\n"+
-                "2. Show all participations\n"+
-                "3. Score a participant\n"+
-                "4. Show winner\n");
+                "2. Search participant\n"+
+                "3. Show all participations\n"+
+                "4. Score a participant\n"+
+                "5. Show winner\n");
     }
     public static void updateTrial() {
         System.out.println("0. Back\n"+
