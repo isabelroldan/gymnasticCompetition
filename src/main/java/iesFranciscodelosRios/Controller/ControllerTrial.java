@@ -1,15 +1,22 @@
 package iesFranciscodelosRios.Controller;
 import iesFranciscodelosRios.Utils.Read;
 import iesFranciscodelosRios.GUI.*;
+import iesFranciscodelosRios.Utils.Utils;
 import iesFranciscodelosRios.model.*;
 
-public class ControllerTrial {
+import java.util.ArrayList;
 
+public class ControllerTrial {
+    private static ControllerTrial _instance=null;
+
+    private ControllerTrial(){
+
+    }
     public void main(Trial t, Competition c) {
         boolean end = false;
         do {
             Gui.trial();
-            switch (Read.readInt("Enter a valid option")) {
+            switch (Read.readInt("Enter any option")) {
                 case 0:
                     end=true;
                     break;
@@ -23,7 +30,7 @@ public class ControllerTrial {
                     showAll(t);
                     break;
                 case 4:
-                    score(t);
+                    JudgeManager(c,t);
                     break;
                 case 5:
                     showWinner(t);
@@ -31,10 +38,25 @@ public class ControllerTrial {
                 default:
                     System.out.println("Please enter a valid option");
                     break;
-
-
             }
         } while (!end);
+    }
+    public void JudgeManager(Competition c,Trial t){
+        boolean end=false;
+        do {
+            Gui.JudgeManager();
+            switch (Read.readInt("Enter any option")){
+                case 0:
+                    end=true;
+                    break;
+                case 1:
+                    JudgeLogin(c,t);
+                    break;
+                default:
+                    System.out.println("Enter a valid option");
+                    break;
+            }
+        }while (!end);
     }
     private void addParticipant(Trial t, Competition c){
         int key=Read.readInt("Enter a dorsal number");
@@ -64,6 +86,18 @@ public class ControllerTrial {
             System.out.println("The participant with dorsal number "+dorsal+" has not been found");
         }
     }
+    public void JudgeLogin(Competition c,Trial t){
+        if(c.getJudge()!=null){
+            if(t.login(c.getJudge(),Read.readDNI("Enter the DNI of the judge"),Read.readPassword())){
+                System.out.println(Utils.verde+"OK. Login successfully\n\n");
+                score(t);
+            }else{
+                System.out.println(Utils.rojo+"The username or password is not correct");
+            }
+        }else{
+            System.out.println("A jury must be inserted in the current competition");
+        }
+    }
     private void score(Trial t){
         Participation aux=t.searchParticipant(Read.readInt("Enter the participant's dorsal number"));
         if(aux!=null){
@@ -78,8 +112,9 @@ public class ControllerTrial {
         }
     }
     private void showWinner(Trial t){
-        if(t.getWinner()!=null){
-            for (Participation p:t.getWinner()){
+        ArrayList<Participation>aux=t.getWinner();
+        if(aux!=null){
+            for (Participation p: aux){
                 System.out.println(p);
             }
         }else{
@@ -87,5 +122,10 @@ public class ControllerTrial {
         }
     }
 
+    public static ControllerTrial get_instance() {
+        if(_instance==null){
+            _instance=new ControllerTrial();
+        }
+        return _instance;
+    }
 }
-
