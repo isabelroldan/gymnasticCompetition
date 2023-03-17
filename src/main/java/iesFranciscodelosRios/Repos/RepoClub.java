@@ -10,9 +10,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RepoClub {
+    @XmlTransient
+    private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoGymnast");
     private Map<String,Club> clubs= new HashMap<>();
     @XmlTransient
     private static RepoClub _instance=null;
@@ -21,25 +25,43 @@ public class RepoClub {
     }
     public boolean addClub(Club aux){
         boolean result=false;
-        if(!clubs.containsKey(aux.getNombre())){
-            clubs.put(aux.getNombre(),aux);
-            result=true;
+        try {
+            if(!clubs.containsKey(aux.getNombre())){
+                clubs.put(aux.getNombre(),aux);
+                result=true;
+            }
+        }catch (NullPointerException e){
+            logger.severe("Error method addClub "+e.getMessage());
+        }finally {
+            logger.warning("Warning. method add. It has not been executed correctly");
         }
         return result;
     }
     public boolean removeClub(String name){
         boolean result=false;
-        if(clubs.containsKey(name) && Utils.confirm("Are you sure that you like remove the "+name+" club?")){
-            clubs.remove(name);
-            result=true;
+        try{
+            if(clubs.containsKey(name) && Utils.confirm("Are you sure that you like remove the "+name+" club?")){
+                clubs.remove(name);
+                result=true;
+            }
+        }catch (NullPointerException e){
+            logger.severe("Error method removeClub "+e.getMessage());
+        }finally {
+            logger.warning("Warning. method add. It has not been executed correctly");
         }
         return result;
     }
     public boolean updateClub(String name){
         boolean result=false;
-        if(clubs.containsKey(name) && Utils.confirm("Are you sure that you like update the name of the "+name+" club?")){
-            clubs.get(name).setNombre(Read.readString("Enter a new name"));
-            result=true;
+        try{
+            if(clubs.containsKey(name) && Utils.confirm("Are you sure that you like update the name of the "+name+" club?")){
+                clubs.get(name).setNombre(Read.readString("Enter a new name"));
+                result=true;
+            }
+        }catch (NullPointerException e){
+            logger.severe("Error method updateClub "+e.getMessage());
+        }finally {
+            logger.warning("Warning. method add. It has not been executed correctly");
         }
         return result;
     }
