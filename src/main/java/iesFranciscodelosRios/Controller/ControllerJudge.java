@@ -10,13 +10,13 @@ import iesFranciscodelosRios.model.Judge;
 import java.util.ArrayList;
 
 public final class ControllerJudge {
-    private JudgeRepo judgeRepo= XMLManager.readXML(JudgeRepo.get_instance(),"Judges.xml");
+    private final JudgeRepo judgeRepo= XMLManager.readXML(JudgeRepo.get_instance(),"Judges.xml");
     private static ControllerJudge _intance=null;
-    private ControllerJudge() {
+    public void main() {
         boolean end=false;
         do {
             Gui.crudJudge();
-            switch (Read.readInt("Enter any option valid")){
+            switch (Read.readInt(Utils.amarillo+"Enter any option valid"+Utils.b)){
                 case 0:
                     end=true;
                     break;
@@ -33,16 +33,16 @@ public final class ControllerJudge {
                     showAll();
                     break;
                 default:
-                    System.out.println("Please enter a option valid");
+                    System.out.println(Utils.rojo+"Please enter a option valid"+Utils.b);
                     break;
             }
         }while (!end);
     }
     public void add(){
         if(judgeRepo.add(new Judge(Read.readDNI("enter a valid ID and one that is not registered"),Read.readString("Enter a name of the judge"),Read.readTelephoneNumber(),Read.readMail(),Read.readPassword()))){
-            System.out.println("Ok. The judge was added correctly");
+            System.out.println(Utils.verde+"Ok. The judge was added correctly"+Utils.b);
         }else{
-            System.out.println("Error. Could not add judge");
+            System.out.println(Utils.rojo+"Error. Could not add judge"+Utils.b);
         }
     }
     public void remove(){
@@ -57,7 +57,7 @@ public final class ControllerJudge {
         if(aux!=null){
             System.out.println(aux);
         }else{
-            System.out.println("The judge was not found");
+            System.out.println(Utils.rojo+"The judge was not found"+Utils.b);
         }
     }
     public void showAll(){
@@ -67,10 +67,10 @@ public final class ControllerJudge {
                 System.out.println(j);
             }
        }else{
-           System.out.println("There are no judges");
+           System.out.println(Utils.rojo+"There are no judges"+Utils.b);
        }
     }
-    public ControllerJudge get_intance() {
+    public static ControllerJudge get_intance() {
         if(_intance==null){
             _intance=new ControllerJudge();
         }
