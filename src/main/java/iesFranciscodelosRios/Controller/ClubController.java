@@ -3,19 +3,20 @@ package iesFranciscodelosRios.Controller;
 import iesFranciscodelosRios.GUI.Gui;
 import iesFranciscodelosRios.Repos.RepoClub;
 import iesFranciscodelosRios.Utils.Read;
+import iesFranciscodelosRios.Utils.Utils;
 import iesFranciscodelosRios.Utils.XMLManager;
 import iesFranciscodelosRios.model.Club;
 
 import java.util.Map;
 
-public class ClubController {
+public final class ClubController {
     private final RepoClub repo= XMLManager.readXML(RepoClub.get_instance(),"Clubs.xml");
     public static ClubController _instance=null;
     public void main(){
         boolean end=false;
         do {
             Gui.crudClub();
-            switch (Read.readInt("Enter any option")){
+            switch (Read.readInt(Utils.amarillo+"Enter any option"+Utils.b)){
                 case 0:
                     end=true;
                     break;
@@ -32,23 +33,23 @@ public class ClubController {
                     showClubs();
                     break;
                 default:
-                    System.out.println("Enter a valid option");
+                    System.out.println(Utils.rojo+"Enter a valid option"+Utils.b);
                     break;
             }
         }while (!end);
     }
     public void createClub(){
         if(repo.addClub(new Club(Read.readString("Enter a club name that does not exist")))){
-            System.out.println("The club has been created successfully");
+            System.out.println(Utils.verde+"The club has been created successfully"+Utils.b);
         }else{
-            System.out.println("Could not create club");
+            System.out.println(Utils.rojo+"Could not create club"+Utils.b);
         }
     }
     public void deleteClub(){
-        if(repo.removeClub("Enter the name of the club you want to delete")){
-            System.out.println("Ok. it was deleted correctly");
+        if(repo.removeClub(Read.readString("Enter the name of the club you want to delete"))){
+            System.out.println(Utils.verde+"Ok. it was deleted correctly"+Utils.b);
         }else{
-            System.out.println("Could not delete club");
+            System.out.println(Utils.rojo+"Could not delete club"+Utils.b);
         }
     }
     public void searchClub(){
@@ -56,17 +57,17 @@ public class ClubController {
         if(repo.searchClub(name)!=null){
             System.out.println(repo.searchClub(name));
         }else{
-            System.out.println("The searched club was not found");
+            System.out.println(Utils.rojo+"The searched club was not found"+Utils.b);
         }
     }
     public void showClubs(){
         Map<String,Club> aux=repo.getClubs();
-        if(aux!=null){
+        if(!aux.isEmpty()){
             for (String key: repo.getClubs().keySet()){
                 System.out.println(aux.get(key));
             }
         }else{
-            System.out.println("No clubs available");
+            System.out.println(Utils.rojo+"No clubs available"+Utils.b);
         }
     }
     public static ClubController get_instance() {
