@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Club {
+public final class Club {
     @XmlTransient
     private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("model.Trial");
     private String nombre;
