@@ -1,16 +1,18 @@
 package iesFranciscodelosRios.GUI;
 
-public class Gui{
+import iesFranciscodelosRios.Utils.Utils;
+
+public final class Gui{
 
     public static void mainMenu() {
-        System.out.println("0. Exit\n" +
+        System.out.println(Utils.b+"0. Exit\n" +
                 "1. Gymnastics manager\n" +
                 "2. Competitions manager\n" +
                 "3. Clubs manager\n"+
                 "3. Save and Exit");
     }
     public static void crudGymnastic() {
-        System.out.println("0. Back\n" +
+        System.out.println(Utils.b+"0. Back\n" +
                 "1. Federate gymnast\n" +
                 "2. Search gymnast\n" +
                 "3. Modify gymnast\n" +
@@ -18,7 +20,7 @@ public class Gui{
                 "5. Show all gymnast");
     }
     public static void updateGymnast() {
-        System.out.println("0. Back\n" +
+        System.out.println(Utils.b+"0. Back\n" +
                 "1. Gymnastic modify\n" +
                 "2. Telephone modify\n" +
                 "3. Email modify\n" +
@@ -26,14 +28,14 @@ public class Gui{
                 "5. Club");
     }
     public static void competitionManager() {
-        System.out.println("0. Back\n" +
+        System.out.println(Utils.b+"0. Back\n" +
                 "1. Manage competition\n"+
                 "2. Manage participations\n"+
                 "3. Manage trials\n"+
                 "4. Manage Group");
     }
     public static void crudCompetition() {
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Create competition\n"+
                 "2. Competition update\n"+
                 "3. Search competition\n"+
@@ -41,26 +43,26 @@ public class Gui{
                 "5. Show all competitions");
     }
     public static void updateCompetitions() {
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Description\n"+
                 "2. Date create\n");
     }
     public static void crudPaticipations() {
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Create participation\n"+
                 "2. Update participation\n"+
                 "3. Search participation\n"+
                 "4. Delete participation\n");
     }
     public static void updateParticipation() {
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Update dorsal\n"+
                 "2. Update participation\n"+
                 "3. Update hour\n"+
                 "4. Update score\n");
     }
     public static void crudTrials() {
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Create trial\n"+
                 "2. Update trial\n"+
                 "3. Search trial\n"+
@@ -68,7 +70,7 @@ public class Gui{
     }
     /*Este deberia estar incluido en trial*/
     public static void trial(){
-        System.out.println("0. Back\n" +
+        System.out.println(Utils.b+"0. Back\n" +
                 "1. Enter participation\n"+
                 "2. Search participant\n"+
                 "3. Show all participations\n"+
@@ -76,14 +78,14 @@ public class Gui{
                 "5. Show winner\n");
     }
     public static void updateTrial() {
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Update type\n"+
                 "2. Update category\n"+
                 "3. Update kit");
     }
 
     public static void crudGroup() {
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Create group\n"+
                 "2. Show groups\n"+
                 "3. Update group\n"+
@@ -92,7 +94,7 @@ public class Gui{
                 "6. Delete Gymnast");
     }
     public static void crudClub(){
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Create club\n"+
                 "2. Delete club\n"+
                 "3. search club\n"+
@@ -100,11 +102,11 @@ public class Gui{
     }
     // Este metodo se implementa en controllerTrial
     public static void JudgeManager(){
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Score ");
     }
     public static void crudJudge(){
-        System.out.println("0. Back\n"+
+        System.out.println(Utils.b+"0. Back\n"+
                 "1. Register new Judge\n"+
                 "2. Remove some judge\n"+
                 "3. search some judge\n"+
