@@ -1,5 +1,6 @@
 package iesFranciscodelosRios.Repos;
 
+import iesFranciscodelosRios.Utils.Utils;
 import iesFranciscodelosRios.model.Judge;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,7 +20,6 @@ public final class JudgeRepo {
     private static JudgeRepo _instance = null;
 
     private JudgeRepo() {
-        _instance = new JudgeRepo();
     }
 
     public boolean add(Judge j) {
@@ -32,8 +32,6 @@ public final class JudgeRepo {
             judges.add(j);
         } catch (NullPointerException e) {
             logger.severe("Error method add " + e.getMessage());
-        } finally {
-            logger.warning("Warning. method add. It has not been executed correctly");
         }
         return true;
     }
@@ -41,7 +39,7 @@ public final class JudgeRepo {
     public boolean remove(String dni) {
         try {
             for (Judge j : judges) {
-                if (j.getDNI().equalsIgnoreCase(dni)) {
+                if (j.getDNI().equalsIgnoreCase(dni) && Utils.confirm("Are you sure to delete this judge?")) {
                     judges.remove(j);
                     return true;
                 }
@@ -76,7 +74,7 @@ public final class JudgeRepo {
 
     public static JudgeRepo get_instance() {
         if (_instance == null) {
-            return _instance;
+            _instance=new JudgeRepo();
         }
         return _instance;
     }
