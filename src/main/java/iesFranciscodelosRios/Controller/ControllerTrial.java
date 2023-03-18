@@ -6,7 +6,7 @@ import iesFranciscodelosRios.model.*;
 
 import java.util.ArrayList;
 
-public class ControllerTrial {
+public final class ControllerTrial {
     private static ControllerTrial _instance=null;
 
     private ControllerTrial(){
@@ -117,19 +117,19 @@ public class ControllerTrial {
             for(int i=0;i<aux.size();i++){
                 switch (i){
                     case 0:
-                        System.out.println("First place");
+                        System.out.println(Utils.b+"Gold medal");
                         for (Participation p: aux.get(0)){
                             System.out.println(Utils.magenta+"\t"+p+Utils.b);
                         }
                         break;
                     case 1:
-                        System.out.println("Second place");
+                        System.out.println(Utils.b+"Silver medal");
                         for (Participation p: aux.get(1)){
-                            System.out.println(Utils.celeste+"\t"+p+Utils.b);
+                            System.out.println(Utils.magenta+"\t"+p+Utils.b);
                         }
                         break;
                     case 2:
-                        System.out.println("Third place");
+                        System.out.println(Utils.b+"Bronze medal");
                         for (Participation p: aux.get(2)){
                             System.out.println(Utils.magenta+"\t"+p+Utils.b);
                         }
