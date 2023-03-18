@@ -1,11 +1,14 @@
 package iesFranciscodelosRios.Utils;
 
 public class Utils {
-    public final static String b = "\u001B[0m";
-    public final static String rojo = "\033[31m";
-    public final static String verde = "\033[32m";
-    public final static String amarillo = "\033[33m";
-    public final static String magenta = "\033[35m";
+    public static String b = "\u001B[0m";
+    public static String negro = "\033[30m";
+    public static String rojo = "\033[31m";
+    public static String verde = "\033[32m";
+    public static String amarillo = "\033[33m";
+    public static String azul = "\033[34m";
+    public static String magenta = "\033[35m";
+    public static String celeste = "\033[36m";
 
     /**
      * Metodo que realiza una consulta al jugador si desea realmente realizar una accion de manera definitiva
