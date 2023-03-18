@@ -30,7 +30,7 @@ public class ControllerTrial {
                     showAll(t);
                     break;
                 case 4:
-                    JudgeManager(c,t);
+                    JudgeLogin(c,t);
                     break;
                 case 5:
                     showWinner(t);
@@ -41,7 +41,7 @@ public class ControllerTrial {
             }
         } while (!end);
     }
-    public void JudgeManager(Competition c,Trial t){
+    public void JudgeManager(Trial t){
         boolean end=false;
         do {
             Gui.JudgeManager();
@@ -50,7 +50,7 @@ public class ControllerTrial {
                     end=true;
                     break;
                 case 1:
-                    JudgeLogin(c,t);
+                    score(t);
                     break;
                 default:
                     System.out.println("Enter a valid option");
@@ -89,8 +89,8 @@ public class ControllerTrial {
     public void JudgeLogin(Competition c,Trial t){
         if(c.getJudge()!=null){
             if(t.login(c.getJudge(),Read.readDNI("Enter the DNI of the judge"),Read.readPassword())){
-                System.out.println(Utils.verde+"OK. Login successfully\n\n");
-                score(t);
+                System.out.println(Utils.verde+"OK. Login successfully\n"+Utils.b);
+                JudgeManager(t);
             }else{
                 System.out.println(Utils.rojo+"The username or password is not correct");
             }
@@ -112,10 +112,29 @@ public class ControllerTrial {
         }
     }
     private void showWinner(Trial t){
-        ArrayList<Participation>aux=t.getWinner();
+        ArrayList<ArrayList<Participation>>aux=t.getWinner();
         if(aux!=null){
-            for (Participation p: aux){
-                System.out.println(p);
+            for(int i=0;i<aux.size();i++){
+                switch (i){
+                    case 0:
+                        System.out.println("First place");
+                        for (Participation p: aux.get(0)){
+                            System.out.println(Utils.magenta+"\t"+p+Utils.b);
+                        }
+                        break;
+                    case 1:
+                        System.out.println("Second place");
+                        for (Participation p: aux.get(1)){
+                            System.out.println(Utils.celeste+"\t"+p+Utils.b);
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Third place");
+                        for (Participation p: aux.get(2)){
+                            System.out.println(Utils.magenta+"\t"+p+Utils.b);
+                        }
+                        break;
+                }
             }
         }else{
             System.out.println("There are no participants in the trial ");
