@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Judge extends Person{
+public final class Judge extends Person{
     private char[] password;
     public Judge() {
 
