@@ -1,6 +1,5 @@
 package iesFranciscodelosRios.Repos;
 
-import iesFranciscodelosRios.Utils.Read;
 import iesFranciscodelosRios.Utils.Utils;
 import iesFranciscodelosRios.model.Club;
 
@@ -17,63 +16,60 @@ import java.util.logging.Logger;
 public class RepoClub {
     @XmlTransient
     private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoGymnast");
-    private Map<String,Club> clubs= new HashMap<>();
+    private Map<String, Club> clubs = new HashMap<>();
     @XmlTransient
-    private static RepoClub _instance=null;
-    private RepoClub(){
+    private static RepoClub _instance = null;
+
+    private RepoClub() {
 
     }
-    public boolean addClub(Club aux){
-        boolean result=false;
+
+    public boolean addClub(Club aux) {
+        boolean result = false;
         try {
-            if(!clubs.containsKey(aux.getNombre())){
-                clubs.put(aux.getNombre(),aux);
-                result=true;
+            for (String key : clubs.keySet()) {
+                if (key.equalsIgnoreCase(aux.getNombre())) {
+                    return false;
+                }
             }
-        }catch (NullPointerException e){
-            logger.severe("Error method addClub "+e.getMessage());
-        }finally {
-            logger.warning("Warning. method add. It has not been executed correctly");
+            clubs.put(aux.getNombre(), aux);
+            result = true;
+        } catch (NullPointerException e) {
+            logger.severe("Error method addClub " + e.getMessage());
+        } finally {
+            if (!result) {
+                logger.warning("Warning. method add. It has not been executed correctly");
+            }
         }
         return result;
     }
-    public boolean removeClub(String name){
-        boolean result=false;
-        try{
-            if(clubs.containsKey(name) && Utils.confirm("Are you sure that you like remove the "+name+" club?")){
+
+    public boolean removeClub(String name) {
+        boolean result = false;
+        try {
+            if (clubs.containsKey(name) && Utils.confirm("Are you sure that you like remove the " + name + " club?")) {
                 clubs.remove(name);
-                result=true;
+                result = true;
             }
-        }catch (NullPointerException e){
-            logger.severe("Error method removeClub "+e.getMessage());
-        }finally {
-            logger.warning("Warning. method add. It has not been executed correctly");
+        } catch (NullPointerException e) {
+            logger.severe("Error method removeClub " + e.getMessage());
+        } finally {
+            logger.warning("Warning. method removeClub. It has not been executed correctly");
         }
         return result;
     }
-    public boolean updateClub(String name){
-        boolean result=false;
-        try{
-            if(clubs.containsKey(name) && Utils.confirm("Are you sure that you like update the name of the "+name+" club?")){
-                clubs.get(name).setNombre(Read.readString("Enter a new name"));
-                result=true;
-            }
-        }catch (NullPointerException e){
-            logger.severe("Error method updateClub "+e.getMessage());
-        }finally {
-            logger.warning("Warning. method add. It has not been executed correctly");
-        }
-        return result;
-    }
-    public Club searchClub(String name){
+
+    public Club searchClub(String name) {
         return clubs.get(name);
     }
-    public Map<String,Club> getClubs(){
+
+    public Map<String, Club> getClubs() {
         return clubs;
     }
-    public static RepoClub get_instance(){
-        if(_instance==null){
-            _instance=new RepoClub();
+
+    public static RepoClub get_instance() {
+        if (_instance == null) {
+            _instance = new RepoClub();
         }
         return _instance;
     }
