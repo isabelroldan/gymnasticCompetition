@@ -1,0 +1,10 @@
+mar 14, 2023 8:48:14 A. M. iesFranciscodelosRios.Test.Trial.TestTrial testAddParticipant
+INFO: OK se establecio puntuacion correctamente
+mar 14, 2023 8:48:14 A. M. iesFranciscodelosRios.Test.Trial.TestTrial testAddParticipant
+INFO: OK se establecio puntuacion correctamente
+mar 14, 2023 8:48:14 A. M. iesFranciscodelosRios.Test.Trial.TestTrial testAddParticipant
+INFO: OK se establecio puntuacion correctamente
+mar 14, 2023 8:48:14 A. M. iesFranciscodelosRios.Test.Trial.TestTrial testAddParticipant
+INFO: OK TestAddParticipant agrego un participante al hashMap
+mar 14, 2023 8:48:14 A. M. iesFranciscodelosRios.Test.Trial.TestTrial testGetWinner
+INFO: OK. testGetWinner se comprobo correctamente
