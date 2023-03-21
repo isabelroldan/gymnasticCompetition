@@ -9,10 +9,12 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Read {
-    private final static java.util.logging.Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Utils.Read");
+    private final static java.util.logging.Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Utils.Read");
     private final static Scanner sc = new Scanner(System.in);
 
     /**
@@ -31,7 +33,7 @@ public class Read {
                 isCorrect = true;
             } catch (Exception e) {
                 System.out.println(Utils.rojo + "Enter a valid number" + Utils.b);
-                logger.warning("Warning "+e.getMessage());
+                logger.warning("Warning " + e.getMessage());
             }
             sc.nextLine();
         } while (!isCorrect);
@@ -51,10 +53,11 @@ public class Read {
             result = sc.nextLine();
         } catch (Exception e) {
             System.out.println(Utils.rojo + "Enter the option correct" + Utils.b);
-            logger.warning("Warning "+e.getMessage());
+            logger.warning("Warning " + e.getMessage());
         }
         return result;
     }
+
     /**
      * Metodo que leera un dni a partir de que cumpla las requisitos de un dni. si no volvera a pedirlo. Este metodo
      * es capaz de calcular la letra del dni si el usuario no lo introduce
@@ -62,44 +65,44 @@ public class Read {
      * @param msn Mensaje que se leera
      * @return retorna el dni completo
      */
-    public static String readDNI(String msn){
+    public static String readDNI(String msn) {
         String dni;
         boolean isCorrect;
-        do{
-            isCorrect=true;
-            System.out.println(Utils.amarillo+msn+Utils.b);
-            dni=sc.nextLine();
-            dni=dni.toUpperCase();
-            if (dni.length()==9){ //buscara que todos los numeros sean numeros
-                String numerosDNI="";
-                for(int c=0;c<dni.length()-1 && isCorrect;c++){
-                    isCorrect=isNumber(dni.charAt(c));
-                    numerosDNI+=dni.charAt(c);//esto los almacena correctamente
+        do {
+            isCorrect = true;
+            System.out.println(Utils.amarillo + msn + Utils.b);
+            dni = sc.nextLine();
+            dni = dni.toUpperCase();
+            if (dni.length() == 9) { //buscara que todos los numeros sean numeros
+                String numerosDNI = "";
+                for (int c = 0; c < dni.length() - 1 && isCorrect; c++) {
+                    isCorrect = isNumber(dni.charAt(c));
+                    numerosDNI += dni.charAt(c);//esto los almacena correctamente
                 }
-                if(isCorrect){ //si los 8 primeros digitos so5n numeros entonces se comprueba que la letra sea correcta
-                    if(dni.charAt(8)== calculateLetterDNI(numerosDNI)){
-                        isCorrect=true;
-                    }else{
-                        isCorrect=false;
+                if (isCorrect) { //si los 8 primeros digitos so5n numeros entonces se comprueba que la letra sea correcta
+                    if (dni.charAt(8) == calculateLetterDNI(numerosDNI)) {
+                        isCorrect = true;
+                    } else {
+                        isCorrect = false;
                     }
                 }
-            }else if(dni.length()==8){
-                boolean isTrue=Utils.confirm("La letra es "+ calculateLetterDNI(dni)+" ?");
-                if(isTrue){
-                    dni+= calculateLetterDNI(dni);
-                }else{
-                    isCorrect=false;
+            } else if (dni.length() == 8) {
+                boolean isTrue = Utils.confirm("La letra es " + calculateLetterDNI(dni) + " ?");
+                if (isTrue) {
+                    dni += calculateLetterDNI(dni);
+                } else {
+                    isCorrect = false;
                 }
-            } else if (dni.length()==8 || dni.length()==9){
-                System.out.println(Utils.rojo+"Introduce un dni que no este registrado"+ Utils.b);
-                isCorrect=false;
-            }else{
-                isCorrect=false;
+            } else if (dni.length() == 8 || dni.length() == 9) {
+                System.out.println(Utils.rojo + "Introduce un dni que no este registrado" + Utils.b);
+                isCorrect = false;
+            } else {
+                isCorrect = false;
             }
-            if (dni.length()!=8 && dni.length()!=9 || !isCorrect) {
-                System.out.println(Utils.rojo+"Introduzca correctamente el DNI"+ Utils.b);
+            if (dni.length() != 8 && dni.length() != 9 || !isCorrect) {
+                System.out.println(Utils.rojo + "Introduzca correctamente el DNI" + Utils.b);
             }
-        }while(!isCorrect);
+        } while (!isCorrect);
 
         return dni;
     }
@@ -130,41 +133,51 @@ public class Read {
         char letra = letras[Integer.valueOf(numeroDNI) % 23]; //Integer.valueOF(numeroDNI)  coge la cadena string NumeroDNI lo convertira a numerico (como si fuese un int)
         return letra;
     }
+
     /**
      * Metodo el cual leera una fecha para retornarla en el formato correspondiente
      *
      * @param msn Mensaje a imprimir
      * @return fecha completa
      */
-    public static boolean readDate(String msn) {
+    public static Date readDate(String msn) {
         try {
-            System.out.println(Utils.amarillo+msn+Utils.b);
-            String date= sc.nextLine();
+            System.out.println(Utils.amarillo + msn + Utils.b);
+            String date = sc.nextLine();
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
             formatDate.setLenient(false);
-            formatDate.parse(date);
-            return true;
+            return formatDate.parse(date);
         } catch (ParseException e) {
-            return false;
+            return null;
         }
     }
 
-    public static int readTelephoneNumber(){
-        int result=-1;
-        String telephone=readString("Enter a valid telephone number:");
-        if(telephone.matches("[0-9]{9,11}")){
-            result= Integer.parseInt(telephone);
+    public static String readTelephoneNumber() {
+        String result =null;
+        try {
+            String telephone = readString("Enter a phone number in the same format as the following example : [+01 12345679]");
+            if (telephone.matches("^\\+[0-9]{1,4} *-?[0-9]{9,11}$")) {
+                result = telephone;
+            }
+        } catch (InputMismatchException e) {
+            logger.severe("Error method readTelephoneNumber " + e.getMessage());
         }
         return result;
     }
-    public static String readMail(){
+
+    public static String readMail() {
         String result=null;
-        String mail=readString("Enter a valid mail:");
-        if(mail.matches("[a-zA-Z]*[0-9]?@[a-zA-Z]*.[A-Za-z]{2,3}")){
-            result=mail;
+        try {
+            String mail=readString("Enter a valid mail:");
+            if(mail.matches("[a-zA-Z]*[0-9]?@[a-zA-Z]*.[A-Za-z]{2,3}")){
+                result=mail;
+            }
+        } catch (InputMismatchException e) {
+            logger.severe("Error method readMail " + e.getMessage());
         }
         return result;
     }
+
     public static char[] readPassword() {
         char[] password = new char[0];
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

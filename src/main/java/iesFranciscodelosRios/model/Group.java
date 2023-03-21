@@ -1,7 +1,10 @@
 package iesFranciscodelosRios.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.ArrayList;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Group {
 
     private String Name;
@@ -12,7 +15,6 @@ public class Group {
 
     public Group(String name, Club club) {
         Name = name;
-        this.gymasts = gymasts;
         this.club = club;
     }
 
@@ -47,3 +49,6 @@ public class Group {
                 "Club:"+club;
     }
 }
+
+
+

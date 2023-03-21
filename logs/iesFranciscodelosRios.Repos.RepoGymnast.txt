@@ -1,2 +1,0 @@
-Mar 16, 2023 6:26:44 PM iesFranciscodelosRios.Repos.RepoGymnast ShowAll
-WARNING: deleteGymnast failed to initialize 

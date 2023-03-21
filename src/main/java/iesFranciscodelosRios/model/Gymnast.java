@@ -1,6 +1,8 @@
 package iesFranciscodelosRios.model;
 
 import iesFranciscodelosRios.Enum.Category;
+import iesFranciscodelosRios.Repos.RepoClub;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -14,7 +16,7 @@ public class Gymnast extends Person{
      * Creacion de categoria y club
      */
     private Category cat;
-    private Club Club;
+    private String Club;
 
     /**
      * Constructores por defecto y full-equip
@@ -24,8 +26,8 @@ public class Gymnast extends Person{
 
     }
 
-    public Gymnast(String DNI, String name, int phone, String mail, Category cat, Club club) {
-        super(DNI, name, phone, mail);
+    public Gymnast(String DNI, String name, String phone,String surname, String mail, Category cat, String club) {
+        super(DNI, name,surname, phone, mail);
         this.cat = cat;
         this.Club = club;
     }
@@ -37,7 +39,7 @@ public class Gymnast extends Person{
         return cat;
     }
 
-    public Club getClub() {
+    public String getClub() {
         return Club;
     }
 
@@ -49,9 +51,8 @@ public class Gymnast extends Person{
         this.cat = cat;
     }
 
-    public void setClub(Club club) {
-
-        Club = club;
+    public void setClub(String name) {
+        Club = RepoClub.get_instance().searchClub(name).getName();
     }
 
     /**
@@ -62,6 +63,7 @@ public class Gymnast extends Person{
     public String toString() {
         return super.toString() +"\n\t" +
                 "Category: " + cat + "\n\t" +
-                "Club: " + Club +"\n\t";
+                "Club: "+Club +"\n\t";
     }
+
 }

@@ -2,22 +2,28 @@ package iesFranciscodelosRios.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import java.util.Arrays;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class Judge extends Person{
+public final class Judge extends Person {
     private char[] password;
+
     public Judge() {
 
     }
 
-    public Judge(String DNI, String name, int phone, String mail, char[] password) {
-        super(DNI, name, phone, mail);
+    public Judge(String DNI, String name,String surname, String phone, String mail, char[] password) {
+        super(DNI, name,surname, phone, mail);
         this.password = password;
     }
 
-    public char[] getPassword() {
-        return password;
+    public boolean login(char[] password) {
+        boolean result = false;
+        if (Arrays.equals(this.password, password)) {
+            result = true;
+        }
+        return result;
     }
 
     @Override

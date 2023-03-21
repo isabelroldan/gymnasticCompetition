@@ -7,6 +7,7 @@ import iesFranciscodelosRios.Repos.RepoClub;
 import iesFranciscodelosRios.Repos.RepoGymnast;
 import iesFranciscodelosRios.interfaces.*;
 import iesFranciscodelosRios.Utils.*;
+import iesFranciscodelosRios.model.Club;
 import iesFranciscodelosRios.model.Gymnast;
 
 
@@ -15,18 +16,15 @@ import iesFranciscodelosRios.model.Gymnast;
  * Esta interfaz tiene los metodos a utilizar en esta clase
  */
 public class GymnastController implements iController {
-    private RepoGymnast repoGym = XMLManager.readXML(RepoGymnast.get_instance(),"Gymnastes.xml");
     private static GymnastController _instance =null;
 
     private GymnastController() {
     }
-
+    /**
+     * menu encargado de controlar las opciones del CRUD relacionado con gimnasta
+     */
     @Override
     public void main() {
-        /**
-         * menu encargado de controlar las opciones del CRUD relacionado con gimnasta
-         */
-
         boolean end = false;
         do {
             Gui.crudGymnastic();
@@ -64,18 +62,36 @@ public class GymnastController implements iController {
      */
     @Override
     public void add() {
-        if (repoGym.addGymnast(new Gymnast(
-                Read.readDNI("Insert Gymnast's DNI: "),
-                Read.readString("Insert Gymnast's name: "),
-                Read.readTelephoneNumber(),
-                Read.readMail(),
-                Category.fromName(Read.readString("Insert Gymnast's Category:")),
-                RepoClub.get_instance().searchClub(Read.readString("Insert Gymnast's new club name: "))))) {
-            System.out.println("Gymnast Added");
-        }else{
-            System.out.println("Try Again");
+        String Dni= Read.readDNI("Enter Gymnast DNI: ");
+        String Name=Read.readString("Enter Gymnast Name");
+        String surname=Read.readString("Enter  Gymnast Surname");
+        String phone=null;
+        while (phone==null){
+            phone=Read.readTelephoneNumber();
+        }
+        String mail=null;
+        while(mail==null){
+            mail=Read.readMail();
+        }
+        Category cat=null;
+        while(cat==null){
+            cat=Category.fromName(Read.readString("insert Gymnast cathegory: "));
+        }
+        Club club=null;
+        while(club==null){
+            String cname=Read.readString("Insert Gymnast's new club name: ");
+            club=RepoClub.get_instance().searchClub(cname);
+            if(club==null && Utils.confirm("Club doesn't exist,creating a club with the name "+cname) && RepoClub.get_instance().addClub(club)){
+                club=RepoClub.get_instance().searchClub(cname);
+            }
         }
 
+        if(RepoGymnast.get_instance().addGymnast(new Gymnast(Dni,Name,phone,surname,mail,cat,club.getName()))){
+            RepoClub.get_instance().searchClub(club.getName()).addGymnast(RepoGymnast.get_instance().showGymnast(Dni));
+            System.out.println("Gymnast Added");
+        }else {
+            System.out.println("Try Again");
+        }
     }
 
     /**
@@ -85,9 +101,9 @@ public class GymnastController implements iController {
     @Override
     public void show() {
         String DNI = Read.readDNI("Insert Gymnast's DNI to search: ");
-        Gymnast gym = repoGym.showGymnast(DNI);
+        Gymnast gym = RepoGymnast.get_instance().showGymnast(DNI);
         if (gym != null) {
-            System.out.println("Gymnast Founded: " + gym.toString());
+            System.out.println("Gymnast Founded: " + gym);
         } else {
             System.out.println("404 Gymnast Not Found");
         }
@@ -100,7 +116,7 @@ public class GymnastController implements iController {
     @Override
     public void delete() {
         String DNI = Read.readDNI("Insert Gymnast's DNI to Delete: ");
-        boolean deleted = repoGym.deleteGymnast(DNI);
+        boolean deleted = RepoGymnast.get_instance().deleteGymnast(DNI);
         if (deleted) {
             System.out.println("Gymnast Deleted Successfully");
         } else {
@@ -115,15 +131,16 @@ public class GymnastController implements iController {
     @Override
     public void modify() {
         String DNI = Read.readDNI("Insert Gymnast's DNI to Modify: ");
-        Gymnast gym = repoGym.showGymnast(DNI);
+        Gymnast gym = RepoGymnast.get_instance().showGymnast(DNI);
         if (gym != null) {
-            System.out.println("Gymnast Found: " + gym.toString());
-            int opt;
+            System.out.println("Gymnast Found: " + gym);
+            boolean end=false;
             do {
                 Gui.updateGymnast();
-                switch (opt = Read.readInt("Select Option")) {
+                switch (Read.readInt("Select Option")) {
                     case 0:
                         System.out.println("Go Back");
+                        end=true;
                         break;
                     case 1:
                         gym.setName(Read.readString("Insert Gymnast's new name: "));
@@ -138,18 +155,17 @@ public class GymnastController implements iController {
                         gym.setCat(Category.fromName(Read.readString("Insert Gymnast's new category: ")));
                         break;
                     case 5:
-                        gym.setClub(RepoClub.get_instance().searchClub(Read.readString("Insert Gymnast's new club name: ")));
+                        gym.setClub(Read.readString("Insert Gymnast's new club name: "));
                         break;
                     default:
                         System.out.println("Wrong Option");
                 }
-            } while (opt != 5);
+            } while (!end);
         } else {
             System.out.println("404 Gymnast Not Found");
         }
 
     }
-
     /**
      * metodo que llama al metodo showALL
      * hace que muestre todos los datos almacenados
@@ -158,7 +174,7 @@ public class GymnastController implements iController {
     @Override
     public void showAll() {
 
-        repoGym.ShowAll();
+        RepoGymnast.get_instance().ShowAll();
     }
     public static GymnastController get_instance() {
         if(_instance == null){
@@ -166,5 +182,4 @@ public class GymnastController implements iController {
         }
         return _instance;
     }
-
 }

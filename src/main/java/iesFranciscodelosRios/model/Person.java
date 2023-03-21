@@ -1,8 +1,5 @@
 package iesFranciscodelosRios.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 
 public class Person implements Comparable<Person>{
     /**
@@ -10,7 +7,9 @@ public class Person implements Comparable<Person>{
      */
     protected String DNI;
     protected String Name;
-    protected int Phone;
+
+    protected String Surname;
+    protected String Phone;
     protected String Mail;
 
     /**
@@ -20,9 +19,10 @@ public class Person implements Comparable<Person>{
 
     }
 
-    public Person(String DNI, String name, int phone, String mail) {
+    public Person(String DNI, String name,String Surname, String phone, String mail) {
         this.DNI = DNI;
         this.Name = name;
+        this.Surname=Surname;
         this.Phone = phone;
         this.Mail = mail;
     }
@@ -46,11 +46,19 @@ public class Person implements Comparable<Person>{
         Name = name;
     }
 
-    public int getPhone() {
+    public String getSurname() {
+        return Surname;
+    }
+
+    public void setSurname(String Surname) {
+        Surname = Surname;
+    }
+
+    public String getPhone() {
         return Phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         Phone = phone;
     }
 
@@ -88,8 +96,9 @@ public class Person implements Comparable<Person>{
      */
     @Override
     public String toString() {
-        return "Gymnast: \n\t" +
+        return "Person: \n\t" +
                 "Name:'" + Name + "\n\t" +
+                "Surname:'" + Surname + "\n\t" +
                 "DNI='" + DNI + "\n\t" +
                 "Phone:" + Phone +"\n\t"+
                 "Mail:'" + Mail;

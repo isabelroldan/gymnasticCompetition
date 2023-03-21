@@ -1,12 +1,11 @@
 package iesFranciscodelosRios.Repos;
 
-import iesFranciscodelosRios.interfaces.iRepoGymnast;
 import iesFranciscodelosRios.model.Gymnast;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.*;
-
+import iesFranciscodelosRios.interfaces.iRepoGymnast;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class RepoGymnast implements iRepoGymnast  {
@@ -28,11 +27,10 @@ public final class RepoGymnast implements iRepoGymnast  {
     public boolean addGymnast(Gymnast gym) {
         boolean result=false;
         try {
-                if (gymnastes.contains(gym) || gym.getPhone() == -1 || gym.getMail() == null || gym.getCat() == null){
-                } else {
-                    gymnastes.add(gym);
-                    result = true;
-                }
+            if (!gymnastes.contains(gym) || gym.getPhone() == null || gym.getMail() == null || gym.getCat() == null) {
+                gymnastes.add(gym);
+                result = true;
+            }
         }catch (NullPointerException e){
             logger.severe("An Error Occurred: "+e.getMessage());
 
@@ -47,7 +45,7 @@ public final class RepoGymnast implements iRepoGymnast  {
     /**
      * metodo encargado de elminar los datos del gimnasta buscandolo mediante su DNI
      * @param DNI del gimnasta existente
-     * @return gimnasta eliminado
+     * @return gimnasta eliminado=true false=no se ha borrado
      */
     @Override
     public boolean deleteGymnast(String DNI) {
@@ -90,6 +88,7 @@ public final class RepoGymnast implements iRepoGymnast  {
      *Muestra todos los datos almacenados del arrayList
      */
     public void ShowAll() {
+        boolean result=false;
         try {
             if (gymnastes.isEmpty()) {
                 System.out.println("No Gymnastes added.");
@@ -97,14 +96,22 @@ public final class RepoGymnast implements iRepoGymnast  {
                 System.out.println("Gymnast List:");
                 Collections.sort(gymnastes);
                 for (Gymnast gymnast : gymnastes) {
-                    System.out.println(gymnast.toString());
+                    System.out.println(gymnast);
                 }
+                result=true;
             }
         }catch (NullPointerException e){
             logger.severe("An Error Occurred: "+e.getMessage());
         }finally {
-            logger.warning("deleteGymnast failed to initialize ");
+            if (!result) {
+                logger.warning("ShowAll failed to initialize");
+            }
+
         }
+    }
+
+    public static void set_instance(RepoGymnast _instance) {
+        RepoGymnast._instance = _instance;
     }
 
     public static RepoGymnast get_instance() {

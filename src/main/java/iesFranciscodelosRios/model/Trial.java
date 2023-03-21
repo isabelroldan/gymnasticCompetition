@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public final class Trial implements iTrial {
-    private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("model.Trial");
+    private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.model.Trial");
     private Type type;
     private Category category;
     private Kit kit;
@@ -99,18 +99,6 @@ public final class Trial implements iTrial {
             }
         }
         return end;
-    }
-
-    public boolean login(Judge j, String dni, char[] password) {
-        boolean result = false;
-        try {
-            if (j.getDNI().equalsIgnoreCase(dni) && Arrays.equals(j.getPassword(), password)) {
-                result = true;
-            }
-        } catch (NullPointerException e) {
-            logger.severe("Error " + e.getMessage());
-        }
-        return result;
     }
 
     /**

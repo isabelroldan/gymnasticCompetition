@@ -15,24 +15,24 @@ import java.util.logging.Logger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RepoClub {
     @XmlTransient
-    private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoGymnast");
+    private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoClub");
     private Map<String, Club> clubs = new HashMap<>();
     @XmlTransient
     private static RepoClub _instance = null;
 
     private RepoClub() {
-
+        //clubs= XMLManager.readXML(RepoClub.this,"Clubs.xml").getClubs();
     }
 
     public boolean addClub(Club aux) {
         boolean result = false;
         try {
             for (String key : clubs.keySet()) {
-                if (key.equalsIgnoreCase(aux.getNombre())) {
+                if (key.equalsIgnoreCase(aux.getName())) {
                     return false;
                 }
             }
-            clubs.put(aux.getNombre(), aux);
+            clubs.put(aux.getName(), aux);
             result = true;
         } catch (NullPointerException e) {
             logger.severe("Error method addClub " + e.getMessage());
@@ -54,17 +54,37 @@ public class RepoClub {
         } catch (NullPointerException e) {
             logger.severe("Error method removeClub " + e.getMessage());
         } finally {
-            logger.warning("Warning. method removeClub. It has not been executed correctly");
+            if(!result){
+                logger.warning("Warning. method removeClub. It has not been executed correctly");
+            }
         }
         return result;
     }
 
     public Club searchClub(String name) {
-        return clubs.get(name);
+        Club result=null;
+        try{
+            for (String clubName:clubs.keySet()){
+                if(clubName.equalsIgnoreCase(name)){
+                    result=clubs.get(clubName);
+                }
+            }
+        }catch (NullPointerException e) {
+            logger.severe("Error method searchClub " + e.getMessage());
+        } finally {
+            if(result==null){
+                logger.warning("Warning. method searchClub. It has not been executed correctly");
+            }
+        }
+        return result;
     }
 
     public Map<String, Club> getClubs() {
         return clubs;
+    }
+
+    public static void set_instance(RepoClub _instance) {
+        RepoClub._instance = _instance;
     }
 
     public static RepoClub get_instance() {

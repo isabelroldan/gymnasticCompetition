@@ -10,8 +10,6 @@ import iesFranciscodelosRios.model.Judge;
 import iesFranciscodelosRios.model.Participation;
 import iesFranciscodelosRios.model.Trial;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TestTrial {
@@ -19,9 +17,9 @@ public class TestTrial {
     private static Trial t=new Trial(Type.INDIVIDUAL, Category.BENJAMIN, Kit.HOOP);
     public static void main(String[] args) {
         Trial t=new Trial(Type.INDIVIDUAL,Category.BENJAMIN,Kit.HOOP);
-        Competition competition=new Competition("prueba","dxd","14-03-2023");
+        Competition competition=new Competition("prueba","dxd", null);
         competition.addTrial(t);
-        competition.setJudge(new Judge("54592015C","Juez1",123,"prueba@prueba.com", Read.readPassword()));
+        competition.setJudge(new Judge("54592015C","Pablo","Suarez","+34 123456789","prueba@prueba.com", Read.readPassword()));
         HashMap<Integer, Participation>participations=new HashMap<>();
         participations.put(1,new Participation<>(1,"00:01"));
         participations.put(2,new Participation<>(2,"00:04"));

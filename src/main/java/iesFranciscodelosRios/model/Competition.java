@@ -8,21 +8,19 @@ import iesFranciscodelosRios.Enum.Type;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Competition {
 
     private String name;
     private String description;
-    private String initialDate;
+    private Date initialDate;
     private ArrayList<Trial> trials = new ArrayList<>();
     private Map<Integer, Participation> participations = new HashMap<>();
     private ArrayList<Group> groups = new ArrayList<>();
     private Judge judge;
 
-    public Competition(String name, String description, String initialDate) {
+    public Competition(String name, String description, Date initialDate) {
         this.name = name;
         this.description = description;
         this.initialDate = initialDate;
@@ -30,7 +28,6 @@ public class Competition {
 
 
     public Competition() {
-        this("", "", "");
     }
 
 
@@ -54,12 +51,12 @@ public class Competition {
     }
 
 
-    public String getInitialDate() {
+    public Date getInitialDate() {
         return initialDate;
     }
 
 
-    public void setInitialDate(String initialDate) {
+    public void setInitialDate(Date initialDate) {
         this.initialDate = initialDate;
     }
 
@@ -84,7 +81,7 @@ public class Competition {
     }
 
 
-    public ArrayList<Group> getGroups() {
+        public ArrayList<Group> getGroups() {
         return groups;
     }
 
@@ -160,72 +157,35 @@ public class Competition {
         return trial;
     }
 
-    /**
-     * Method to change a trial
-     *
-     * @param trial to change
-     * @return true if the change was successful and false if not
-     */
-    public boolean changeTrial(Trial trial) {
-        boolean result = false;
 
-        if (trial != null) {
-            Type trialType = trial.getType();
-            if (trialType != null) {
-                Category trialCategory = trial.getCategory();
-                if (trialCategory != null) {
-                    Kit trialKit = trial.getKit();
-                    if (trialKit != null) {
-                        if (showTrial(trial.getType(), trial.getCategory(), trial.getKit()) != null) {
-                            Iterator<Trial> it = trials.iterator();
-                            while (it.hasNext()) {
-                                Trial trials = it.next();
-                                if (trials.equals(trial)) {
-                                    trials = trial;
-                                    result = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Method to delete a trial
-     *
-     * @param trial to delete
-     * @return true if the delete was successful and false if not
-     */
     public boolean removeTrial(Trial trial) {
-        boolean result = false;
+        if (trial == null) {
+            return false;
+        }
 
-        if (trial != null) {
-            Type trialType = trial.getType();
-            if (trialType != null) {
-                Category trialCategory = trial.getCategory();
-                if (trialCategory != null) {
-                    Kit trialKit = trial.getKit();
-                    if (trialKit != null) {
-                        if (showTrial(trial.getType(), trial.getCategory(), trial.getKit()) != null) {
-                            Iterator<Trial> it = trials.iterator();
-                            while (it.hasNext()) {
-                                Trial trials = it.next();
-                                if (trials.equals(trial)) {
-                                    it.remove();
-                                    result = true;
-                                }
-                            }
-                        }
-                    }
-                }
+        Type trialType = trial.getType();
+        Category trialCategory = trial.getCategory();
+        Kit trialKit = trial.getKit();
+
+        if (trialType == null || trialCategory == null || trialKit == null) {
+            return false;
+        }
+
+        Trial matchingTrial = showTrial(trialType, trialCategory, trialKit);
+
+        if (matchingTrial == null || !matchingTrial.equals(trial)) {
+            return false;
+        }
+
+        Iterator<Trial> it = trials.iterator();
+        while (it.hasNext()) {
+            if (it.next().equals(trial)) {
+                it.remove();
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
     /**
@@ -384,36 +344,13 @@ public class Competition {
         if (groups != null) {
             Iterator<Group> it = groups.iterator();
             while (it.hasNext()) {
-                Group Group = it.next();
+                group = it.next();
                 if (group.getName().equals(name)) {
                     return group;
                 }
             }
         }
         return group;
-    }
-
-    /**
-     * Method to change a group
-     *
-     * @param group to change
-     * @return true if the change was successful and false if not
-     */
-    public boolean changeGroup(Group group) {
-        boolean result = false;
-
-        if (group != null && showGroup(group.getName()) != null) {
-            Iterator<Group> it = groups.iterator();
-            while (it.hasNext()) {
-                Group groups = it.next();
-                if (groups.equals(group)) {
-                    groups = group;
-                    result = true;
-                }
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -461,7 +398,13 @@ public class Competition {
 
         return result;
     }
-
+    /**
+     * Insert gymnasts to a group
+     *
+     * @param groupName: Name of the group to insert into
+     * @param gymnast:   to insert in group
+     * @return true if add was successful and false if not
+     */
     public boolean insertGymnast(String groupName, Gymnast gymnast) {
         boolean result = false;
 
@@ -470,7 +413,6 @@ public class Competition {
             if (g.getName().equals(groupName)) {
                 group = g;
                 break;
-
             }
         }
 
@@ -482,14 +424,20 @@ public class Competition {
             group.setGymasts(new ArrayList<>());
         }
 
-        if (group.getClub() == gymnast.getClub()) {
+        if (group.getClub().equals(gymnast.getClub())) {
             group.getGymasts().add(gymnast);
             result = true;
         }
 
         return result;
     }
-
+    /**
+     * Remove gymnasts to a group
+     *
+     * @param group:   group to delete into
+     * @param gymnast: to delete in group
+     * @return true if remove was successful and false if not
+     */
     public boolean removeGymnast(Group group, Gymnast gymnast) {
         boolean result = false;
 

@@ -16,12 +16,11 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-
 public final class CompetitionRepo {
 	@XmlTransient
-	private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.CompetitionRepo");
+	private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.Competition");
 	@XmlElement(name="Competition")
-    private ArrayList<Competition> competitions = new ArrayList<Competition>();
+    private ArrayList<Competition> competitions = new ArrayList<>();
 	
 	@XmlTransient
 	private static CompetitionRepo _instance = null;
@@ -160,12 +159,14 @@ public final class CompetitionRepo {
             }
     	}catch (NullPointerException e) {
     		logger.severe("An Error Ocurred: "+e.getMessage());
-    	}finally {
-    		logger.warning("showAllCompetitions failed to initialize");
     	}
         
     }
-    
+
+    public static void set_instance(CompetitionRepo _instance) {
+        CompetitionRepo._instance = _instance;
+    }
+
     public static CompetitionRepo get_instance() {
     	if(_instance == null) {
     		_instance = new CompetitionRepo();

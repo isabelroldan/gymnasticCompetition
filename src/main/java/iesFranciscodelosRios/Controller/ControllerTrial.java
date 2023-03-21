@@ -88,7 +88,7 @@ public final class ControllerTrial {
     }
     public void JudgeLogin(Competition c,Trial t){
         if(c.getJudge()!=null){
-            if(t.login(c.getJudge(),Read.readDNI("Enter the DNI of the judge"),Read.readPassword())){
+            if(c.getJudge().login(Read.readPassword())){
                 System.out.println(Utils.verde+"OK. Login successfully\n"+Utils.b);
                 JudgeManager(t);
             }else{

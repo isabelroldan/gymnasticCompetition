@@ -4,13 +4,11 @@ import iesFranciscodelosRios.GUI.Gui;
 import iesFranciscodelosRios.Repos.RepoClub;
 import iesFranciscodelosRios.Utils.Read;
 import iesFranciscodelosRios.Utils.Utils;
-import iesFranciscodelosRios.Utils.XMLManager;
 import iesFranciscodelosRios.model.Club;
 
 import java.util.Map;
 
 public final class ClubController {
-    private final RepoClub repo= XMLManager.readXML(RepoClub.get_instance(),"Clubs.xml");
     public static ClubController _instance=null;
     private ClubController(){
 
@@ -42,14 +40,14 @@ public final class ClubController {
         }while (!end);
     }
     public void createClub(){
-        if(repo.addClub(new Club(Read.readString("Enter a club name that does not exist")))){
+        if(RepoClub.get_instance().addClub(new Club(Read.readString("Enter a club name that does not exist")))){
             System.out.println(Utils.verde+"The club has been created successfully"+Utils.b);
         }else{
             System.out.println(Utils.rojo+"Could not create club"+Utils.b);
         }
     }
     public void deleteClub(){
-        if(repo.removeClub(Read.readString("Enter the name of the club you want to delete"))){
+        if(RepoClub.get_instance().removeClub(Read.readString("Enter the name of the club you want to delete"))){
             System.out.println(Utils.verde+"Ok. it was deleted correctly"+Utils.b);
         }else{
             System.out.println(Utils.rojo+"Could not delete club"+Utils.b);
@@ -57,22 +55,27 @@ public final class ClubController {
     }
     public void searchClub(){
         String name=Read.readString("Enter the name of the club you want to search for");
-        if(repo.searchClub(name)!=null){
-            System.out.println(repo.searchClub(name));
+        if(RepoClub.get_instance().searchClub(name)!=null){
+            System.out.println(RepoClub.get_instance().searchClub(name));
         }else{
             System.out.println(Utils.rojo+"The searched club was not found"+Utils.b);
         }
     }
     public void showClubs(){
-        Map<String,Club> aux=repo.getClubs();
+        Map<String,Club> aux=RepoClub.get_instance().getClubs();
         if(!aux.isEmpty()){
-            for (String key: repo.getClubs().keySet()){
+            for (String key: RepoClub.get_instance().getClubs().keySet()){
                 System.out.println(aux.get(key));
             }
         }else{
             System.out.println(Utils.rojo+"No clubs available"+Utils.b);
         }
     }
+
+    public static void set_instance(ClubController _instance) {
+        ClubController._instance = _instance;
+    }
+
     public static ClubController get_instance() {
         if(_instance==null){
             _instance=new ClubController();

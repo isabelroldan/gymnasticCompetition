@@ -1,5 +1,6 @@
 package iesFranciscodelosRios.Repos;
 
+import iesFranciscodelosRios.Utils.Read;
 import iesFranciscodelosRios.Utils.Utils;
 import iesFranciscodelosRios.model.Judge;
 
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class JudgeRepo {
     @XmlTransient
-    private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoGymnast");
+    private final static Logger logger = iesFranciscodelosRios.Utils.Logger.CreateLogger("iesFranciscodelosRios.Repos.RepoJudge");
     private ArrayList<Judge> judges = new ArrayList<>();
     @XmlTransient
     private static JudgeRepo _instance = null;
@@ -36,20 +37,21 @@ public final class JudgeRepo {
         return true;
     }
 
-    public boolean remove(String dni) {
+    public boolean remove(String dni, char[] password) {
+        boolean result = false;
         try {
-            for (Judge j : judges) {
-                if (j.getDNI().equalsIgnoreCase(dni) && Utils.confirm("Are you sure to delete this judge?")) {
-                    judges.remove(j);
-                    return true;
-                }
+            if (search(dni) != null && Utils.confirm("Are you sure to delete this judge?") && search(dni).login(password)) {
+                judges.remove(search(dni));
+                result = true;
             }
         } catch (NullPointerException e) {
             logger.severe("Error method remove. " + e.getMessage());
         } finally {
-            logger.warning("Warning. method remove. It has not been executed correctly");
+            if (!result) {
+                logger.warning("Warning. method remove. It has not been executed correctly");
+            }
         }
-        return false;
+        return result;
     }
 
     public Judge search(String dni) {
@@ -63,7 +65,9 @@ public final class JudgeRepo {
         } catch (NullPointerException e) {
             logger.severe("Error method search. " + e.getMessage());
         } finally {
-            logger.warning("Warning. method search. It has not been executed correctly");
+            if (result == null) {
+                logger.warning("Warning. method search. It has not been executed correctly");
+            }
         }
         return result;
     }
@@ -72,9 +76,13 @@ public final class JudgeRepo {
         return judges;
     }
 
+    public static void set_instance(JudgeRepo _instance) {
+        JudgeRepo._instance = _instance;
+    }
+
     public static JudgeRepo get_instance() {
         if (_instance == null) {
-            _instance=new JudgeRepo();
+            _instance = new JudgeRepo();
         }
         return _instance;
     }

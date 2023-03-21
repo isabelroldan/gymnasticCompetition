@@ -5,7 +5,7 @@ import iesFranciscodelosRios.Utils.Utils;
 public final class Gui{
 
     public static void mainMenu() {
-        System.out.println(Utils.b+"0. Exit\n" +
+        System.out.println(Utils.b+"0. Save and Exit\n" +
                 "1. Gymnastics manager\n" +
                 "2. Competitions manager\n" +
                 "3. Clubs manager\n"+

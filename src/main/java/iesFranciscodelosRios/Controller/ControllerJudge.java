@@ -2,15 +2,12 @@ package iesFranciscodelosRios.Controller;
 
 import iesFranciscodelosRios.GUI.Gui;
 import iesFranciscodelosRios.Repos.JudgeRepo;
-import iesFranciscodelosRios.Utils.Read;
-import iesFranciscodelosRios.Utils.Utils;
-import iesFranciscodelosRios.Utils.XMLManager;
+import iesFranciscodelosRios.Utils.*;
 import iesFranciscodelosRios.model.Judge;
 
 import java.util.ArrayList;
 
 public final class ControllerJudge {
-    private final JudgeRepo judgeRepo= XMLManager.readXML(JudgeRepo.get_instance(),"Judges.xml");
     private static ControllerJudge _intance=null;
     private ControllerJudge(){
 
@@ -42,21 +39,32 @@ public final class ControllerJudge {
         }while (!end);
     }
     public void add(){
-        if(judgeRepo.add(new Judge(Read.readDNI("enter a valid ID and one that is not registered"),Read.readString("Enter a name of the judge"),Read.readTelephoneNumber(),Read.readMail(),Read.readPassword()))){
+        String dni=Read.readDNI("enter a valid DNI and one that is not registered");
+        String name=Read.readString("Enter a name of the judge");
+        String surname=Read.readString("Enter a surname of the judge");
+        String telephoneNumber=null;
+        while (telephoneNumber==null){
+            telephoneNumber=Read.readTelephoneNumber();
+        }
+        String mail=null;
+        while(mail==null){
+            mail=Read.readMail();
+        }
+        if(JudgeRepo.get_instance().add(new Judge(dni,name,surname,telephoneNumber,mail,Read.readPassword()))){
             System.out.println(Utils.verde+"Ok. The judge was added correctly"+Utils.b);
         }else{
             System.out.println(Utils.rojo+"Error. Could not add judge"+Utils.b);
         }
     }
     public void remove(){
-        if(judgeRepo.remove(Read.readDNI("Enter the ID of the judge you want to delete"))){
+        if(JudgeRepo.get_instance().remove(Read.readDNI("Enter the DNI of the judge you want to delete"),Read.readPassword())){
             System.out.println(Utils.verde+"Ok. It was deleted correctly"+Utils.b);
         }else{
             System.out.println(Utils.rojo+"could not delete"+Utils.b);
         }
     }
     public void search(){
-        Judge aux=judgeRepo.search(Read.readDNI("Enter the ID of the judge you want to search for"));
+        Judge aux=JudgeRepo.get_instance().search(Read.readDNI("Enter the ID of the judge you want to search for"));
         if(aux!=null){
             System.out.println(aux);
         }else{
@@ -64,7 +72,7 @@ public final class ControllerJudge {
         }
     }
     public void showAll(){
-       ArrayList<Judge> aux= judgeRepo.getJudges();
+       ArrayList<Judge> aux= JudgeRepo.get_instance().getJudges();
        if(aux!=null){
             for (Judge j:aux){
                 System.out.println(j);

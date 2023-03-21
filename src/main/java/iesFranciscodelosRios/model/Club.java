@@ -10,27 +10,32 @@ import java.util.logging.Logger;
 public final class Club {
     @XmlTransient
     private final static Logger logger= iesFranciscodelosRios.Utils.Logger.CreateLogger("model.Trial");
-    private String nombre;
-    private ArrayList<Gymnast> gymnasts;
+    private String name;
+    private ArrayList<Gymnast> gymnasts=new ArrayList<>();
 
     public Club() {
 
     }
 
-    public Club(String nombre) {
-        this.nombre = nombre;
+    public Club(String name) {
+        this.name = name;
         this.gymnasts = new ArrayList<>();
     }
 
     public boolean addGymnast(Gymnast gymnast) {
+        System.out.println(gymnast.hashCode());
         boolean result=false;
         try {
             if(!gymnasts.contains(gymnast)){
                 gymnasts.add(gymnast);
                 result=true;
             }
-        }catch (NullPointerException e){
-
+        }catch (NullPointerException e) {
+            logger.severe("Error method addGymnast " + e.getMessage());
+        } finally {
+            if(!result){
+                logger.warning("Warning. method addGymnast. It has not been executed correctly");
+            }
         }
         return result;
     }
@@ -46,19 +51,18 @@ public final class Club {
         }
         return result;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return "Club{" +
-                "nombre='" + nombre + '\'' +
-                ", gymnasts=" + gymnasts +
-                '}';
+        return "Club: \n\t" +
+                "Name: " + name + "\n\t" +
+                "Gymnasts: " + gymnasts;
     }
 }
